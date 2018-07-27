@@ -25,7 +25,7 @@ SECRET_KEY = '-28%v420d5s633p!poer(y99#jc!jdgt9y4br&0fmu(wqle*hg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['story-board-dev.us-west-2.elasticbeanstalk.com']
 
 
 # Application definition
