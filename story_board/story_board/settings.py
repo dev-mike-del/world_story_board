@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '-28%v420d5s633p!poer(y99#jc!jdgt9y4br&0fmu(wqle*hg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['story-board-dev.us-west-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['story-board-dev.us-west-2.elasticbeanstalk.com', '127.0.0.1']
 
 
 # Application definition
@@ -84,13 +84,17 @@ if 'RDS_HOSTNAME' in os.environ:
             'PORT': os.environ['RDS_PORT'],
         }
     }
-# else:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#         }
-#     }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'story_board',
+            'USER': 'story_board',
+            'PASSWORD': 'story_board',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
 
 
 # Password validation
