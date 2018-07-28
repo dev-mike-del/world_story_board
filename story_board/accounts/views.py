@@ -18,7 +18,7 @@ def register(request):
                                     )
             # Author.objects.create(user=new_user)
             login(request, new_user)
-            return redirect('posts:post_list')
+            return redirect('stories:story_list')
 
     else:
         form = UserCreationForm()
