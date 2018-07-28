@@ -3,67 +3,65 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, FormView
 
-# from rest_framework import generics
-# from rest_framework import status
-# from rest_framework.views import APIView
-# from rest_framework.response import Response
-
 from .forms import Story_Form
-from .models import Story
+from .models import Author, Story
 
 
 User = get_user_model()
 
 
-def get_request_user(self):
-    request_user = self.request.user
-    request_user, created = User.objects.get_or_create(
-        username=request_author_user.username)
+def get_request_author(self):
+    request_author_user = self.request.user
+    request_author, created = Author.objects.get_or_create(
+        user=request_author_user)
     return request_author
 
 
 def story_form(self, request):
     form = self.form_class(request.POST)
     try:
-        request_user = get_request_user(self)
+        request_author = get_request_author(self)
     except Exception:
-        request_user = self.request.user
+        request_author = self.request.user
     else:
         pass
     if form.is_valid():
         if "post" in self.request.POST:
-            post = form.save(commit=False)
+            story = form.save(commit=False)
             if self.request.user.is_authenticated:
-                post.author = request_user
+                story.author = request_author
             else:
                 pass
-            post.save()
+            story.save()
 
 
 def story_recommend(self, request):
     if 'recommend' or 'unrecommend' in self.request.POST:
-        request_user = get_request_user(self)
+        request_author = get_request_author(self)
         if 'recommend' in self.request.POST:
             story_id = request.POST.get('recommend')
             story = get_object_or_404(Story, id=story_id)
-            story.recommendations.add(request_user)
+            story.recommendations.add(request_author)
         elif 'unrecommend' in self.request.POST:
             story_id = request.POST.get('unrecommend')
             story = get_object_or_404(Story, id=story_id)
-            story.recommendations.remove(request_user)
+            story.recommendations.remove(request_author)
 
 
-def follow_user(self, request):
+def story_follow(self, request):
     if 'follow' or 'unfollow' in self.request.POST:
-            request_user = get_request_user(self)
-            target_user = User.objects.get(username=self.kwargs['user'])
+            request_author = get_request_author(self)
+            target_author_str = self.kwargs['author']
+            target_author_user = User.objects.get(username=target_author_str)
+            target_author, created2 = Author.objects.get_or_create(
+                user=target_author_user)
             if 'follow' in self.request.POST:
-                request_user.following.add(target_user)
-                target_user.followers.add(self.request.user)
+                request_author.following.add(target_author_user)
+                target_author.followers.add(self.request.user)
             elif 'unfollow' in self.request.POST:
-                request_user.following.remove(target_user)
-                target_user.followers.remove(self.request.user)
-            return target_user
+                request_author.following.remove(target_author_user)
+                target_author.followers.remove(self.request.user)
+            return target_author
 
 
 class Story_List(ListView, FormView):
@@ -79,8 +77,8 @@ class Story_List(ListView, FormView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            context['guest_user'] = User.objects.get(
-                username=self.request.user.username)
+            context['guest_author'] = Author.objects.get(
+                user=self.request.user)
         return context
 
     def post(self, request, *args, **kwargs):
@@ -93,60 +91,42 @@ class Story_List(ListView, FormView):
             return HttpResponseRedirect(Story.get_absolute_url(self))
 
 
-# class User_Post_List(ListView, FormView):
-#     context_object_name = 'posts'
-#     model = Post
-#     form_class = Post_Form
-#     template_name = 'posts/user_post_list.html'
+class Author_Story_List(ListView, FormView):
+    context_object_name = 'stories'
+    model = Author
+    form_class = Story_Form
+    slug_field = 'author_slug'
+    slug_url_kwarg = 'author_slug'
+    template_name = 'stories/author_story_list.html'
 
-#     def get_queryset(self):
-#         author_username = self.kwargs['author']
-#         user = get_object_or_404(User, username=author_username)
-#         author = get_object_or_404(Author, user=user)
-#         return self.model.objects.filter(author=author).order_by('-id')
+    # def get_queryset(self):
+    #     author_username = self.kwargs['author']
+    #     user = get_object_or_404(User, username=author_username)
+    #     author = get_object_or_404(Author, user=user)
+    #     return self.model.objects.filter(author=author).order_by('-id')
 
-#     def get_context_data(self, **kwargs):
-#         # Call the base implementation first to get a context
-#         context = super().get_context_data(**kwargs)
-#         host_author = self.kwargs['author']
-#         context['host_author'] = host_author
-#         context['host_author_user'] = User.objects.get(
-#             username=host_author)
-#         if self.request.user.is_authenticated:
-#             context['guest_author'] = Author.objects.get(
-#                 user=self.request.user)
-#         return context
-
-#     def post(self, request, *args, **kwargs):
-#         post_form(self, request)
-#         post_recommend(self, request)
-#         target_author = post_follow(self, request,)
-#         return redirect('posts:user_post_list', author=target_author)
+    # def get_queryset(self):
+    #     author = get_object_or_404(Author,
+    #                             user=self.request.user)
+    #     return self.model.objects.filter(
+    #         Q(executive=executive),
+    #         Q(status__title="published")).all()
 
 
-# class Following_Post_List(ListView, FormView):
-#     context_object_name = 'posts'
-#     model = Post
-#     form_class = Post_Form
-#     template_name = 'posts/post_list.html'
+    # def get_context_data(self, **kwargs):
+    #     # Call the base implementation first to get a context
+    #     context = super().get_context_data(**kwargs)
+    #     host_author = self.kwargs['author']
+    #     context['host_author'] = host_author
+    #     context['host_author_user'] = User.objects.get(
+    #         username=host_author)
+    #     if self.request.user.is_authenticated:
+    #         context['guest_author'] = Author.objects.get(
+    #             user=self.request.user)
+    #     return context
 
-#     def get_queryset(self):
-#         guest_author = get_object_or_404(Author, user=self.request.user)
-#         followee_list = []
-#         for followee in guest_author.following.all():
-#             followee_list.append(followee.author)
-#         return self.model.objects.filter(
-#             author__in=followee_list).order_by('-id')
-
-#     def get_context_data(self, **kwargs):
-#         # Call the base implementation first to get a context
-#         context = super().get_context_data(**kwargs)
-#         if self.request.user.is_authenticated:
-#             context['guest_author'] = Author.objects.get(
-#                 user=self.request.user)
-#         return context
-
-#     def post(self, request, *args, **kwargs):
-#         post_form(self, request)
-#         post_recommend(self, request)
-#         return HttpResponseRedirect(Post.get_absolute_url(self))
+    def post(self, request, *args, **kwargs):
+        story_form(self, request)
+        story_recommend(self, request)
+        target_author = story_follow(self, request,)
+        return redirect('stories:author_story_list', author=target_author)

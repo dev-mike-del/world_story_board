@@ -24,4 +24,4 @@ class Story_Form(ModelForm):
     class Meta:
         """docstring for Meta"""
         model = Story
-        fields = ['title', 'body', 'user', ]
+        fields = ['title', 'body', 'author', ]
