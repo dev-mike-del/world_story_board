@@ -108,3 +108,5 @@ cti_env/
 # Vim Swap Files
 *.swp
 *.swo
+tasks.txt
+*.pyc
