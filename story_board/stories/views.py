@@ -100,12 +100,21 @@ class Author_Story_List(DetailView):
     template_name = 'stories/author_story_list.html'
 
     def get_queryset(self):
-        return self.model.objects.filter(
-            author_slug=self.kwargs['author_slug'])
+        try:
+            return self.model.objects.filter(
+                author_slug=self.kwargs['author_slug'])
+        except Exception:
+            pass
+        else:
+            return None
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['stories'] = Story.objects.filter(
-            author=kwargs['object'])
-        return context
+        try:
+            context['stories'] = Story.objects.filter(
+                author=kwargs['object'])
+        except Exception:
+            pass
+        else:
+            return None
 
