@@ -78,8 +78,12 @@ class Story_List(ListView, FormView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            context['guest_author'] = Author.objects.get(
-                user=self.request.user)
+            try:
+                context['guest_author'] = Author.objects.get(
+                    user=self.request.user)
+            except Exception:
+                pass
+            
         return context
 
     def post(self, request, *args, **kwargs):
