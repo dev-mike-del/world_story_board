@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import ListView, FormView
+from django.views.generic import ListView, FormView, DetailView
 
 from .forms import Story_Form
 from .models import Author, Story
@@ -91,42 +92,20 @@ class Story_List(ListView, FormView):
             return HttpResponseRedirect(Story.get_absolute_url(self))
 
 
-class Author_Story_List(ListView, FormView):
-    context_object_name = 'stories'
+class Author_Story_List(DetailView):
+    context_object_name = 'author'
     model = Author
-    form_class = Story_Form
     slug_field = 'author_slug'
     slug_url_kwarg = 'author_slug'
     template_name = 'stories/author_story_list.html'
 
-    # def get_queryset(self):
-    #     author_username = self.kwargs['author']
-    #     user = get_object_or_404(User, username=author_username)
-    #     author = get_object_or_404(Author, user=user)
-    #     return self.model.objects.filter(author=author).order_by('-id')
+    def get_queryset(self):
+        return self.model.objects.filter(
+            author_slug=self.kwargs['author_slug'])
 
-    # def get_queryset(self):
-    #     author = get_object_or_404(Author,
-    #                             user=self.request.user)
-    #     return self.model.objects.filter(
-    #         Q(executive=executive),
-    #         Q(status__title="published")).all()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['stories'] = Story.objects.filter(
+            author=kwargs['object'])
+        return context
 
-
-    # def get_context_data(self, **kwargs):
-    #     # Call the base implementation first to get a context
-    #     context = super().get_context_data(**kwargs)
-    #     host_author = self.kwargs['author']
-    #     context['host_author'] = host_author
-    #     context['host_author_user'] = User.objects.get(
-    #         username=host_author)
-    #     if self.request.user.is_authenticated:
-    #         context['guest_author'] = Author.objects.get(
-    #             user=self.request.user)
-    #     return context
-
-    def post(self, request, *args, **kwargs):
-        story_form(self, request)
-        story_recommend(self, request)
-        target_author = story_follow(self, request,)
-        return redirect('stories:author_story_list', author=target_author)

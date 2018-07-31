@@ -28,7 +28,7 @@ urlpatterns = [
         name="story_list"
     ),
     path(
-        '<slug>',
+        '<slug:author_slug>',
         Author_Story_List.as_view(),
         name="author_story_list"
     ),

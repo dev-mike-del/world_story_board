@@ -26,7 +26,7 @@ class Author(models.Model):
         return self.user.username
 
     def get_absolute_url(self):
-        return reverse("posts:user_post_list")
+        return reverse("stories:author_story_list")
 
     def save(self, *args, **kwargs):
         max_length = Author._meta.get_field('author_slug').max_length
