@@ -8,7 +8,9 @@
 __pycache__/
 *.py[cod]
 *$py.class
+
 *pyc
+=======
 
 # C extensions
 *.so
@@ -107,7 +109,3 @@ cti_env/
 
 # Vim Swap Files
 *.swp
-*.swo
-
-index.html
-view_notes.txt
