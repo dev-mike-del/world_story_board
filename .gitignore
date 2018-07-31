@@ -109,4 +109,4 @@ cti_env/
 *.swp
 *.swo
 tasks.txt
-*.pyc
+.pyc
