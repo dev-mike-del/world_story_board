@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.views.generic import RedirectView, FormView
 
-# from posts.models import Author
+from stories.models import Author
 
 
 def register(request):
@@ -16,7 +16,7 @@ def register(request):
             new_user = authenticate(username=form.cleaned_data['username'],
                                     password=form.cleaned_data['password1'],
                                     )
-            # Author.objects.create(user=new_user)
+            Author.objects.create(user=new_user)
             login(request, new_user)
             return redirect('stories:story_list')
 
