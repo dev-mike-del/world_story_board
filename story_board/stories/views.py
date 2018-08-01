@@ -27,7 +27,7 @@ def story_form(self, request):
     else:
         pass
     if form.is_valid():
-        if "post" in self.request.POST:
+        if "publish" in self.request.POST:
             story = form.save(commit=False)
             if self.request.user.is_authenticated:
                 story.author = request_author

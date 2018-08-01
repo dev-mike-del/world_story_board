@@ -55,7 +55,7 @@ class Story(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("stories:list")
+        return reverse("stories:story_list")
 
     def save(self, *args, **kwargs):
         max_length = Story._meta.get_field('story_slug').max_length
