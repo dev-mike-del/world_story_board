@@ -4,7 +4,8 @@
 {% block title %}Story Board{% endblock title %}
 
 {% block content %}
-	<div class="container">
+	{{ block.super }}
+	
 		<div class="row">
 			<div class="col-sm-4">
 				{% if stories %}
@@ -21,6 +22,5 @@
 				{% endif %}
 			</div>
 		</div>
-	</div>
 
 {% endblock %}
