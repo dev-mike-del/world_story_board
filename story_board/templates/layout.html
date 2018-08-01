@@ -17,8 +17,8 @@
   <body>
 
       {% block nav %}
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-          <a class="navbar-brand" href="#">Expand at md</a>
+        <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
+          <a class="navbar-brand" href="{% url 'stories:story_list' %}">Story Board</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -26,20 +26,18 @@
           <div class="collapse navbar-collapse" id="navbarsExample04">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
+                {% if user.is_authenticated %}
+                  <a class="nav-link" href="#"> {{ user }} <span class="sr-only">(current)</span></a>
+                {% else %}
+                  <a class="nav-link" href="{% url 'accounts:login' %}"> Login <span class="sr-only">(current)</span></a>
+                {% endif %}
               </li>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown04">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                  <a class="dropdown-item" href="#">About</a>
+                  <a class="dropdown-item" href="#">Code Repository</a>
+                  <a class="dropdown-item" href="#">Code Documentation</a>
                 </div>
               </li>
             </ul>
@@ -48,10 +46,43 @@
             </form>
           </div>
         </nav>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+          <div class="row mt-5"> 
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary mt-5" data-toggle="modal" data-target="#exampleModalCenter">
+              Launch demo modal
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    ...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
       {% endblock nav %}
 
-      {% block content %}
-      {% endblock content %}
+        {% block content %}
+        
+        
+        {% endblock content %}
+      
 
       {% block scripts %}
         <!-- Optional JavaScript -->
