@@ -1,6 +1,7 @@
 import itertools
 import uuid
 
+from django.db.models import Q
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -33,8 +34,14 @@ class Author(models.Model):
         self.author_slug = orig = slugify(self)[:max_length]
 
         for x in itertools.count(1):
+            if self.id:
+                if Author.objects.filter(Q(author_slug=self.author_slug),
+                    Q(user=self.user)).exists():
+                    break
             if not Author.objects.filter(author_slug=self.author_slug).exists():
                 break
+
+            # Truncate the original slug dynamically. Minus 1 for the hyphen.
             self.author_slug = "%s-%d" % (orig[:max_length - len(str(x)) - 1], x)
 
 
