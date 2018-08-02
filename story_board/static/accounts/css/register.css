@@ -1,5 +1,3 @@
-/* Sticky footer styles
--------------------------------------------------- */
 html {
   position: relative;
   min-height: 100%;
@@ -11,7 +9,8 @@ body {
 
 .helptext {
 	font-size: 10px;
-	width: auto;
+	width: 100%;
+
 }
 
 .footer {
