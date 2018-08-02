@@ -69,8 +69,14 @@ class Story(models.Model):
         self.story_slug = orig = slugify(self)[:max_length]
 
         for x in itertools.count(1):
+            if self.id:
+                if Story.objects.filter(Q(story_slug=self.story_slug),
+                    Q(user=self.user)).exists():
+                    break
             if not Story.objects.filter(story_slug=self.story_slug).exists():
                 break
+
+            # Truncate the original slug dynamically. Minus 1 for the hyphen.
             self.story_slug = "%s-%d" % (orig[:max_length - len(str(x)) - 1], x)
 
 
