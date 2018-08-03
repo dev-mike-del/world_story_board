@@ -10,84 +10,87 @@
 
 {% block content %}
 	{{ block.super }}
-	<div class="row">
-	        <!-- Bootstrap card start-->
-    {% for story in stories %}
-    <div class="col-xs mt-4">
-      <div class="card mx-auto border-0 p-2 rounded" style="width: 15rem;">
-        <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
-        <div class="card-block">
 
-          <!-- Card body start -->
-          <h4 class="card-title"> 
-            <a class="text-primary font-italic" data-toggle="modal" data-target="#exampleModalLong_{{ story.id }}" style="cursor: pointer;"> 
-              {{ story.title }} 
-            </a> 
-          </h4>
+  {% block story_list %}
+  	<div class="row">
+  	        <!-- Bootstrap card start-->
+      {% for story in stories %}
+      <div class="col-xs mt-4">
+        <div class="card mx-auto border-0 p-2 rounded" style="width: 15rem;">
+          <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+          <div class="card-block">
 
-          <h6 class="card-subtitle mb-2 text-muted">By: <a href="{% url 'stories:author_story_list' story.author %}">{{ story.author }}</a> </h6>
-          <p class="card-text mb-0"> 
-            {{ story.body|truncatechars:200 }}
-             <!-- Button trigger modal start -->
-              <!-- <a class="text-primary font-italic float-right" data-toggle="modal" data-target="#exampleModalLong_{{ story.id }}" style="cursor: pointer;"> <small> View </small> </a> -->
-            <!-- Button trigger modal end -->
-          </p>
-          <!-- Card body end -->
-          
-          <div class="row pt-2">
-            <div class="col-sm">
-              <p class="text-center mb-0 pb-0">{{ story.recommendations.count }}</p>
-              <p class="text-center mb-0 pb-0"><small> Recommendations </small></p>
+            <!-- Card body start -->
+            <h4 class="card-title"> 
+              <a class="text-primary font-italic" data-toggle="modal" data-target="#exampleModalLong_{{ story.id }}" style="cursor: pointer;"> 
+                {{ story.title }} 
+              </a> 
+            </h4>
+
+            <h6 class="card-subtitle mb-2 text-muted">By: <a href="{% url 'stories:author_story_list' story.author %}">{{ story.author }}</a> </h6>
+            <p class="card-text mb-0"> 
+              {{ story.body|truncatechars:200 }}
+               <!-- Button trigger modal start -->
+                <!-- <a class="text-primary font-italic float-right" data-toggle="modal" data-target="#exampleModalLong_{{ story.id }}" style="cursor: pointer;"> <small> View </small> </a> -->
+              <!-- Button trigger modal end -->
+            </p>
+            <!-- Card body end -->
+            
+            <div class="row pt-2">
+              <div class="col-sm">
+                <p class="text-center mb-0 pb-0">{{ story.recommendations.count }}</p>
+                <p class="text-center mb-0 pb-0"><small> Recommendations </small></p>
+              </div>
+              <div class="col-sm">
+                {% if user.is_authenticated %}
+                  {% if guest_author in story.recommendations.all %}
+                  <form method="POST" class="btn btn-sm">
+                  {% csrf_token %}
+                    <button class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Unrecommend">
+                    Unrec
+                      <input name="unrecommend" type="hidden" value="{{story.id}}" class="btn btn-sm">
+                    </button>
+                  </form>
+                  {% else %}
+                  <form method="POST" class="btn btn-sm">
+                  {% csrf_token %}
+                    <button class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Recommend">
+                    Rec
+                      <input name="recommend" type="hidden" value="{{story.id}}" class="btn btn-sm">
+                    </button>
+                  </form>
+                  {% endif %}
+                {%endif %}
+              </div>
             </div>
-            <div class="col-sm">
-              {% if user.is_authenticated %}
-                {% if guest_author in story.recommendations.all %}
-                <form method="story" class="btn btn-sm">
-                {% csrf_token %}
-                  <button class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Unrecommend">
-                  Unrec
-                    <input name="unrecommend" type="hidden" value="{{story.id}}" class="btn btn-sm">
-                  </button>
-                </form>
-                {% else %}
-                <form method="story" class="btn btn-sm">
-                {% csrf_token %}
-                  <button class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Recommend">
-                  Rec
-                    <input name="recommend" type="hidden" value="{{story.id}}" class="btn btn-sm">
-                  </button>
-                </form>
-                {% endif %}
-              {%endif %}
-            </div>
-          </div>
 
-          <!-- Modal start -->
-          <div class="modal fade" id="exampleModalLong_{{ story.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle_{{ story.id }}" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle_{{ story.id }}"> {{ story.title }} </h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  {{ story.body }}
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <!-- Modal start -->
+            <div class="modal fade" id="exampleModalLong_{{ story.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle_{{ story.id }}" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle_{{ story.id }}"> {{ story.title }} </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    {{ story.body }}
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!-- Modal end -->
+            <!-- Modal end -->
 
+          </div>
         </div>
       </div>
-    </div>
     {% endfor %}
     <!-- Bootstrap card end-->
 	</div>
+  {% endblock story_list %}
 
 {% endblock %}

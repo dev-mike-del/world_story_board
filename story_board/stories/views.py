@@ -37,11 +37,16 @@ def story_form(self, request):
 
 
 def story_recommend(self, request):
+    print("in story_recommed")
+    print(self.request.POST)
     if 'recommend' or 'unrecommend' in self.request.POST:
         request_author = get_request_author(self)
+        print(request_author)
         if 'recommend' in self.request.POST:
             story_id = request.POST.get('recommend')
+            print(story_id)
             story = get_object_or_404(Story, id=story_id)
+            print(story)
             story.recommendations.add(request_author)
         elif 'unrecommend' in self.request.POST:
             story_id = request.POST.get('unrecommend')
@@ -95,7 +100,6 @@ class Story_List(ListView, FormView):
         finally:
             return HttpResponseRedirect(Story.get_absolute_url(self))
 
-
 class Author_Story_List(DetailView):
     context_object_name = 'author'
     model = Author
@@ -114,11 +118,11 @@ class Author_Story_List(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        print(kwargs['object'])
         try:
             context['stories'] = Story.objects.filter(
                 author=kwargs['object'])
         except Exception:
             pass
-        else:
-            return None
+        return context
 

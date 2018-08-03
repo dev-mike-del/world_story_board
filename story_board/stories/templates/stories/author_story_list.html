@@ -1,1 +1,23 @@
-This is the author story list.
+{% extends "stories/story_list.html" %}
+{% load static from staticfiles %}
+
+
+{% block content %}
+
+  <div class="card text-center">
+    <div class="card-header">
+      Author Story Board
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{ user }}</h5>
+      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+    <div class="card-footer text-muted">
+      Joined: {{ user.date_joined }}
+    </div>
+  </div>
+
+  {{ block.super }}
+
+{% endblock content %}
