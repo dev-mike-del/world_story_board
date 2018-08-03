@@ -19,13 +19,25 @@
   </div>
 {% endblock page_header %}
 
-{% block publish_button_and_modal %}
-  {% if user == author.user %}
-    {{ block.super }}
+{% block page_button %}
+  {% if user.is_authenticated %}
+    {% if user == author.user %}
+      {{ block.super }}
+    {% else %}
+      {% if author in guest_author.following.all %}
+        <form method="POST" class="row float-right">
+        {% csrf_token %}
+          <input name="unfollow" type="submit" value="Unfollow" class="btn-small btn-primary mt-5 mr-2 mr-md-0">
+        </form>
+      {% else %}
+        <form method="POST" class="row float-right">
+        {% csrf_token %}
+          <input name="follow" type="submit" value="Follow" class="btn-small btn-primary mt-5 mr-2 mr-md-0">
+        </form>
+      {% endif %}
+    {% endif %}
   {% endif %}
-  
-
-{% endblock publish_button_and_modal %}
+{% endblock page_button %}
 
 {% block content %}
 

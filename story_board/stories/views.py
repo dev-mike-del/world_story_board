@@ -123,6 +123,8 @@ class Author_Story_List(DetailView):
                 author=kwargs['object'])
             context['author'] = Author.objects.get(
                 user=kwargs['object'])
+            context['guest_author'] = Author.objects.get(
+                user=self.request.user)
         except Exception:
             pass
         return context
