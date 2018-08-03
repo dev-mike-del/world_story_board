@@ -42,7 +42,7 @@
             <div class="col-sm">
               {% if user.is_authenticated %}
                 {% if guest_author in story.recommendations.all %}
-                <form method="story" class="btn btn-sm">
+                <form method="POST" class="btn btn-sm">
                 {% csrf_token %}
                   <button class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Unrecommend">
                   Unrec
@@ -50,7 +50,7 @@
                   </button>
                 </form>
                 {% else %}
-                <form method="story" class="btn btn-sm">
+                <form method="POST" class="btn btn-sm">
                 {% csrf_token %}
                   <button class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Recommend">
                   Rec

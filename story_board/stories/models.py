@@ -55,7 +55,7 @@ class Story(models.Model):
     author = models.ForeignKey(
         Author, on_delete=models.CASCADE, blank=True, null=True)
     recommendations = models.ManyToManyField(
-        User, related_name='recommendations', blank=True)
+        Author, related_name='recommendations', blank=True)
     story_slug = models.SlugField(unique=True, default=uuid.uuid4, max_length=255)
 
     def __str__(self):
