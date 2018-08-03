@@ -37,16 +37,11 @@ def story_form(self, request):
 
 
 def story_recommend(self, request):
-    print("in story_recommed")
-    print(self.request.POST)
     if 'recommend' or 'unrecommend' in self.request.POST:
         request_author = get_request_author(self)
-        print(request_author)
         if 'recommend' in self.request.POST:
             story_id = request.POST.get('recommend')
-            print(story_id)
             story = get_object_or_404(Story, id=story_id)
-            print(story)
             story.recommendations.add(request_author)
         elif 'unrecommend' in self.request.POST:
             story_id = request.POST.get('unrecommend')
