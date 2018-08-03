@@ -141,3 +141,32 @@ class Author_Story_List(DetailView, FormView):
         return redirect('stories:author_story_list', author_slug=target_author)
 
 
+class Following_Story_List(ListView, FormView):
+    context_object_name = 'stories'
+    model = Story
+    form_class = Story_Form
+    template_name = 'stories/story_list.html'
+
+    def get_queryset(self):
+        guest_author = get_object_or_404(Author, user=self.request.user)
+        followee_list = []
+        for followee in guest_author.following.all():
+            followee_list.append(followee.author)
+        return self.model.objects.filter(
+            author__in=followee_list).order_by('-id')
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context['guest_author'] = Author.objects.get(
+                user=self.request.user)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        story_form(self, request)
+        story_recommend(self, request)
+        return HttpResponseRedirect(Story.get_absolute_url(self))
+
+
+

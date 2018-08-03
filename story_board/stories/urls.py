@@ -15,13 +15,19 @@ Including another URLconf
 from django.urls import path
 
 from .views import (
-    Story_List, Author_Story_List, 
+    Story_List, 
+    Author_Story_List,
+    Following_Story_List,
 )
 
 app_name = 'stories'
 
 urlpatterns = [
-    
+    path(
+        'following',
+        Following_Story_List.as_view(),
+        name="following_story_list"
+    ),
     path(
         '',
         Story_List.as_view(),
