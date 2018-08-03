@@ -27,7 +27,11 @@
               </a> 
             </h4>
 
-            <h6 class="card-subtitle mb-2 text-muted">By: <a href="{% url 'stories:author_story_list' story.author %}">{{ story.author }}</a> </h6>
+            {% if story.author %}
+            <h6 class="card-subtitle mb-2 text-muted">By: <a href="{% url 'stories:author_story_list' story.author %}">{{ story.author }}</a>
+            </h6>
+            {% endif %}
+            
             <p class="card-text mb-0"> 
               {{ story.body|truncatechars:200 }}
                <!-- Button trigger modal start -->
