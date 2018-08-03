@@ -100,7 +100,7 @@ class Story_List(ListView, FormView):
         finally:
             return HttpResponseRedirect(Story.get_absolute_url(self))
 
-class Author_Story_List(DetailView):
+class Author_Story_List(DetailView, FormView):
     context_object_name = 'author'
     model = Author
     slug_field = 'author_slug'

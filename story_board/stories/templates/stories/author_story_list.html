@@ -2,7 +2,6 @@
 {% load static from staticfiles %}
 
 
-
 {% block page_header %}
   <div class="card text-center">
     <div class="card-header">
@@ -19,8 +18,8 @@
   </div>
 {% endblock page_header %}
 
-{% block page_button %}
 
+{% block page_button %}
   {% if user.is_authenticated %}
     {% if user == author.user %}
       {{ block.super }}
@@ -41,7 +40,5 @@
 {% endblock page_button %}
 
 {% block content %}
-
   {{ block.super }}
-
 {% endblock content %}
