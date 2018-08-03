@@ -118,10 +118,11 @@ class Author_Story_List(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(kwargs['object'])
         try:
             context['stories'] = Story.objects.filter(
                 author=kwargs['object'])
+            context['author'] = Author.objects.get(
+                user=kwargs['object'])
         except Exception:
             pass
         return context

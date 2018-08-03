@@ -50,7 +50,10 @@
         </nav>
       {% endblock nav %}
 
-      {% block content %}
+      {% block page_header %}
+      {% endblock page_header %}
+      
+      {% block publish_button_and_modal %}
         <div class="row float-right">
           <!-- Button trigger modal -->
           <button type="button" class="btn-small btn-primary mt-5 mr-2 mr-md-0" data-toggle="modal" data-target="#exampleModalCenter">
@@ -99,7 +102,9 @@
             </div>
           </div>
         </div> <!-- row -->
-      
+      {% endblock publish_button_and_modal %}
+
+      {% block content %}
       {% endblock content %}
       
 

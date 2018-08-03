@@ -2,21 +2,32 @@
 {% load static from staticfiles %}
 
 
-{% block content %}
 
+{% block page_header %}
   <div class="card text-center">
     <div class="card-header">
       Author Story Board
     </div>
     <div class="card-body">
-      <h5 class="card-title">{{ user }}</h5>
+      <h5 class="card-title">{{ author }}</h5>
       <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
       <a href="#" class="btn btn-primary">Go somewhere</a>
     </div>
     <div class="card-footer text-muted">
-      Joined: {{ user.date_joined }}
+      Joined: {{ author.user.date_joined }}
     </div>
   </div>
+{% endblock page_header %}
+
+{% block publish_button_and_modal %}
+  {% if user == author.user %}
+    {{ block.super }}
+  {% endif %}
+  
+
+{% endblock publish_button_and_modal %}
+
+{% block content %}
 
   {{ block.super }}
 
