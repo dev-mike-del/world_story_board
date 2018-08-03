@@ -54,20 +54,20 @@ def story_recommend(self, request):
             story.recommendations.remove(request_author)
 
 
-def story_follow(self, request):
+def author_follow(self, request):
     if 'follow' or 'unfollow' in self.request.POST:
-            request_author = get_request_author(self)
-            target_author_str = self.kwargs['author']
-            target_author_user = User.objects.get(username=target_author_str)
-            target_author, created2 = Author.objects.get_or_create(
-                user=target_author_user)
-            if 'follow' in self.request.POST:
-                request_author.following.add(target_author_user)
-                target_author.followers.add(self.request.user)
-            elif 'unfollow' in self.request.POST:
-                request_author.following.remove(target_author_user)
-                target_author.followers.remove(self.request.user)
-            return target_author
+        request_author = get_request_author(self)
+        target_author_str = self.kwargs['author_slug']
+        target_author_user = User.objects.get(username=target_author_str)
+        target_author, created2 = Author.objects.get_or_create(
+            user=target_author_user)
+        if 'follow' in self.request.POST:
+            request_author.following.add(target_author_user)
+            target_author.followers.add(self.request.user)
+        elif 'unfollow' in self.request.POST:
+            request_author.following.remove(target_author_user)
+            target_author.followers.remove(self.request.user)
+        return target_author
 
 
 class Story_List(ListView, FormView):
@@ -105,6 +105,7 @@ class Author_Story_List(DetailView):
     model = Author
     slug_field = 'author_slug'
     slug_url_kwarg = 'author_slug'
+    form_class = Story_Form
     template_name = 'stories/author_story_list.html'
 
     def get_queryset(self):
@@ -118,11 +119,25 @@ class Author_Story_List(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(kwargs['object'])
         try:
             context['stories'] = Story.objects.filter(
                 author=kwargs['object'])
+
+            author_user = User.objects.get(username=kwargs['object'])
+            context['author'] = Author.objects.get(
+                user=author_user)
+
+            context['guest_author'] = Author.objects.get(
+                user=self.request.user)
+
         except Exception:
             pass
         return context
+
+    def post(self, request, *args, **kwargs):
+        story_form(self, request)
+        story_recommend(self, request)
+        target_author = author_follow(self, request,)
+        return redirect('stories:author_story_list', author_slug=target_author)
+
 
