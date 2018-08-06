@@ -41,7 +41,7 @@ urlpatterns = [
     ),
     path(
         'about',
-        About.as_view(),
+        About,
         name="about"
     ),
 ]

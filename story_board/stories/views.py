@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView, FormView, DetailView
 
 from .forms import Story_Form
@@ -64,6 +64,9 @@ def author_follow(self, request):
             target_author.followers.remove(self.request.user)
         return target_author
 
+
+def About(request):
+    return render(request, 'stories/about.html')
 
 class Story_List(ListView, FormView):
     context_object_name = 'stories'
