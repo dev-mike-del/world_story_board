@@ -18,6 +18,7 @@ from .views import (
     Story_List, 
     Author_Story_List,
     Following_Story_List,
+    About,
 )
 
 app_name = 'stories'
@@ -37,5 +38,10 @@ urlpatterns = [
         'author/<slug:author_slug>',
         Author_Story_List.as_view(),
         name="author_story_list"
+    ),
+    path(
+        'about',
+        About.as_view(),
+        name="about"
     ),
 ]
