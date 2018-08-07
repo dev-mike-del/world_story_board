@@ -95,7 +95,7 @@ celerybeat-schedule
 .venv
 venv/
 ENV/
-cti_env/
+story_board_env/
 
 # Spyder project settings
 .spyderproject
