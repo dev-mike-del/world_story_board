@@ -39,7 +39,7 @@
                   {% if user.is_authenticated %}
                   <a class="dropdown-item" href="{% url 'stories:following_story_list' %}">Following</a>
                   {% endif %}
-                  <a class="dropdown-item" href="#">About</a>
+                  <a class="dropdown-item" href="{% url 'stories:about' %}">About</a>
                   {% if user.is_authenticated %}
                   <a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a>
                   {% endif %}
