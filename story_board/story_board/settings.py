@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '-28%v420d5s633p!poer(y99#jc!jdgt9y4br&0fmu(wqle*hg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['story-board-dev.us-west-2.elasticbeanstalk.com',
                  '127.0.0.1',
