@@ -71,7 +71,8 @@ class Story(models.Model):
         for x in itertools.count(1):
             if self.id:
                 if Story.objects.filter(Q(story_slug=self.story_slug),
-                    Q(author=self.author)).exists():
+                    Q(author=self.author),
+                    Q(id=self.id)).exists():
                     break
             if not Story.objects.filter(story_slug=self.story_slug).exists():
                 break
