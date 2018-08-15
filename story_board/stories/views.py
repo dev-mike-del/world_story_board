@@ -42,6 +42,7 @@ def story_recall(self, request):
         story_id = request.POST.get('recall')
         story = get_object_or_404(Story, id=story_id)
         story.published = False
+        story.save()
 
 
 def story_recommend(self, request):
@@ -83,7 +84,7 @@ class Story_List(ListView, FormView):
     template_name = 'stories/story_list.html'
 
     def get_queryset(self):
-        return self.model.objects.all().order_by('-id')
+        return self.model.objects.filter(published=True).order_by('-id')
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -103,8 +104,11 @@ class Story_List(ListView, FormView):
             story_recommend(self, request)
         except Exception:
             pass
-        finally:
-            return HttpResponseRedirect(Story.get_absolute_url(self))
+        try:
+            story_recall(self,request)
+        except Exception:
+            pass
+        return HttpResponseRedirect(Story.get_absolute_url(self))
 
 class Author_Story_List(DetailView, FormView):
     context_object_name = 'author'
