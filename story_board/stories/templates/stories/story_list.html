@@ -73,13 +73,13 @@
 
             <!-- Card body start -->
             <h4 class="card-title"> 
-              <a class="text-primary font-italic" data-toggle="modal" data-target="#exampleModalLong_{{ story.id }}" style="cursor: pointer;"> 
+              <a id="a_story_title" class="font-italic" data-toggle="modal" data-target="#exampleModalLong_{{ story.id }}" style="cursor: pointer;"> 
                 {{ story.title }} 
               </a> 
             </h4>
 
             {% if story.author %}
-            <h6 class="card-subtitle mb-2 text-muted">By: <a href="{% url 'stories:author_story_list' story.author %}">{{ story.author }}</a>
+            <h6 class="card-subtitle mb-2 text-muted">By: <a id="a_story_author" href="{% url 'stories:author_story_list' story.author %}">{{ story.author }}</a>
             </h6>
             {% else %}
             <h6 class="card-subtitle mb-2 text-muted">By: Anonymous
