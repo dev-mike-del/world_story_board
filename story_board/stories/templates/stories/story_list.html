@@ -101,23 +101,36 @@
               </div>
               <div class="col-sm">
                 {% if user.is_authenticated %}
-                  {% if guest_author in story.recommendations.all %}
-                  <form method="POST" class="btn btn-sm">
-                  {% csrf_token %}
-                    <button class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Unrecommend">
-                    Unrec
-                      <input name="unrecommend" type="hidden" value="{{story.id}}" class="btn btn-sm">
-                    </button>
-                  </form>
-                  {% else %}
-                  <form method="POST" class="btn btn-sm">
-                  {% csrf_token %}
-                    <button class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Recommend">
-                    Rec
-                      <input name="recommend" type="hidden" value="{{story.id}}" class="btn btn-sm">
-                    </button>
-                  </form>
+                  {% if user == guest_author.user and user != story.author.user %}
+                    {% if guest_author in story.recommendations.all %}
+                    <form method="POST" class="btn btn-sm">
+                    {% csrf_token %}
+                      <button class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Unrecommend">
+                      Unrec
+                        <input name="unrecommend" type="hidden" value="{{story.id}}" class="btn btn-sm">
+                      </button>
+                    </form>
+                    {% else %}
+                    <form method="POST" class="btn btn-sm">
+                    {% csrf_token %}
+                      <button class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Recommend">
+                      Rec
+                        <input name="recommend" type="hidden" value="{{story.id}}" class="btn btn-sm">
+                      </button>
+                    </form>
+                    {% endif %}
                   {% endif %}
+
+                  {% if user == story.author.user %}
+                    <form method="POST" class="btn btn-sm">
+                    {% csrf_token %}
+                      <button class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Recommend">
+                      Recall
+                        <input name="recommend" type="hidden" value="{{story.id}}" class="btn btn-sm">
+                      </button>
+                    </form>
+                  {% endif %}
+
                 {%endif %}
               </div>
             </div>
