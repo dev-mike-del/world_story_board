@@ -146,7 +146,14 @@ class Author_Story_List(DetailView, FormView):
 
     def post(self, request, *args, **kwargs):
         story_form(self, request)
-        story_recommend(self, request)
+        try:
+            story_recommend(self, request)
+        except Exception:
+            pass
+        try:
+            story_recall(self,request)
+        except Exception:
+            pass
         target_author = author_follow(self, request,)
         return redirect('stories:author_story_list', author_slug=target_author)
 
