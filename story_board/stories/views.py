@@ -36,6 +36,14 @@ def story_form(self, request):
             story.save()
 
 
+def story_recall(self, request):
+    if 'recall' in self.request.POST:
+        request_author = get_request_author(self)
+        story_id = request.POST.get('recall')
+        story = get_object_or_404(Story, id=story_id)
+        story.published = False
+
+
 def story_recommend(self, request):
     if 'recommend' or 'unrecommend' in self.request.POST:
         request_author = get_request_author(self)
