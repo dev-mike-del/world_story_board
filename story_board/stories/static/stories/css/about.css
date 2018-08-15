@@ -4,3 +4,8 @@
 	color: black;
 	text-decoration: underline;
 }
+
+.p_font_size {
+	font-size: 1.45rem;
+	font-weight: 545;
+}

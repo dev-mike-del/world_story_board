@@ -10,20 +10,20 @@
 {% block content %}
 	<div class="row pt-3 pl-3">
 		<div class="col-12 text-center">
-			<h1>
+			<h1 class="font-weight-bold">
 				About
 			</h1>
 		</div>
 	</div>
 	<div class="row pb-5 pb-md-1">
 		<div class="col-3 pt-5">
-			<h4>
+			<h2>
 				Welcome!
-			</h4>
+			</h2>
 		</div>
 		<div class="col-12 pl-4">
 			<div class="col-lg">
-				<p>
+				<p class="p_font_size">
 					Story Board is a platform for creating and publishing stories. A story is anything from an actual full length fictional story to the story of your day or anything else that you wish to publish. You can pushlish a story with a user account or you can create an anonymous story. 
 				</p>
 			</div>
@@ -31,18 +31,18 @@
 	</div>
 	<div class="row">
 		<div class="col-md pt-md-5 pl-4">
-			<h5>
+			<h2>
 				Create an Account:
-			</h5>
-			<p>
+			</h2>
+			<p class="p_font_size">
 				With an account, you can publish a story with a by line, view all of your published stories on your profile page, recommend stories and follow other authors.<br> <a href="{% url 'account:register' %}"><small id="register_link">register</small></a>
 			</p>
 		</div>
 		<div class="col-md pt-md-5 pl-4">
-			<h5>
+			<h2>
 				Publish without an Account:
-			</h5>
-			<p>
+			</h2>
+			<p class="p_font_size">
 				Without an account, you can publish a story without a by line. You can view other author's profile pages but you can not follow them or recommend thier stories. <br> <a href="{% url 'stories:story_list' %}"><small id="see_stories_link">see stories</small></a>
 			</p>
 		</div>
