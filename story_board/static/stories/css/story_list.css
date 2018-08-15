@@ -1,4 +1,14 @@
 body{
    min-width:315px; // Suppose you want minimum width of 315px
    _width: expression( document.body.clientWidth > 315 ? "315px" : "auto" ); /* sets max-width for IE6 */
+   background: #f2e5f2;
+}
+
+a{
+	color: black;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: black;
 }
