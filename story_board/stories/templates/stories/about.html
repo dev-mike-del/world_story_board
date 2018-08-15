@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
 {% load static from staticfiles %}
 
+{% block static %}
+{{ block.super }}
+    <link href="{% static 'stories/css/about.css' %}" rel="stylesheet" type="text/css" media="all">
+{% endblock static%}
+
 
 {% block content %}
 	<div class="row pt-3 pl-3">
@@ -30,16 +35,15 @@
 				Create an Account:
 			</h5>
 			<p>
-				With an account, you can publish a story with a by line, view all of your published stories on your profile page, recommend stories and follow other authors.
+				With an account, you can publish a story with a by line, view all of your published stories on your profile page, recommend stories and follow other authors.<br> <a href="{% url 'account:register' %}"><small id="register_link">register</small></a>
 			</p>
-			<a class="btn btn-dark" href="{% url 'account:register' %}" role="button">register</a>
 		</div>
 		<div class="col-md pt-md-5 pl-4">
 			<h5>
 				Publish without an Account:
 			</h5>
 			<p>
-				Without an account, you can publish a story without a by line. You can view other author's profile pages but you can not follow them or recommend thier stories. 
+				Without an account, you can publish a story without a by line. You can view other author's profile pages but you can not follow them or recommend thier stories. <br> <a href="{% url 'stories:story_list' %}"><small id="see_stories_link">see stories</small></a>
 			</p>
 		</div>
 
