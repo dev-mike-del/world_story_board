@@ -36,12 +36,16 @@ def story_form(self, request):
             story.save()
 
 
-def story_recall(self, request):
+def story_recall_and_republish(self, request):
     if 'recall' in self.request.POST:
-        request_author = get_request_author(self)
         story_id = request.POST.get('recall')
         story = get_object_or_404(Story, id=story_id)
         story.published = False
+        story.save()
+    if 'republish' in self.request.POST:
+        story_id = request.POST.get('republish')
+        story = get_object_or_404(Story, id=story_id)
+        story.published = True
         story.save()
 
 
@@ -105,7 +109,7 @@ class Story_List(ListView, FormView):
         except Exception:
             pass
         try:
-            story_recall(self,request)
+            story_recall_and_republish(self,request)
         except Exception:
             pass
         return HttpResponseRedirect(Story.get_absolute_url(self))
@@ -156,7 +160,7 @@ class Author_Story_List(DetailView, FormView):
         except Exception:
             pass
         try:
-            story_recall(self,request)
+            story_recall_and_republish(self,request)
         except Exception:
             pass
         target_author = author_follow(self, request,)
