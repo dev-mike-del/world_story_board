@@ -138,11 +138,11 @@ class Author_Story_List(DetailView, FormView):
             host_author = Author.objects.get(user=host_author_user)
 
             if self.request.user == host_author_user:
-                context['stories'] = Story.objects.filter(author=host_author).all()
+                context['stories'] = Story.objects.filter(author=host_author).all().order_by('-id')
             else:
                 context['stories'] = Story.objects.filter(
                     Q(author=kwargs['object']),
-                    Q(published=True)).all()
+                    Q(published=True)).all().order_by('-id')
 
             context['author'] = host_author
 
