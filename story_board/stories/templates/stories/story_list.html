@@ -24,6 +24,9 @@
           <div class="card-body">
 
             <!-- Card body start -->
+            {% if story.published == False %}
+            <h2>DRAFT</h2>
+            {% endif %}
             <h4 class="card-title"> 
               <a id="a_story_title" class="font-italic" data-toggle="modal" data-target="#exampleModalLong_{{ story.id }}" style="cursor: pointer;"> 
                 {{ story.title }} 
