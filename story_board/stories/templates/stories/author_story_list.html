@@ -1,6 +1,11 @@
 {% extends "stories/story_list.html" %}
 {% load static from staticfiles %}
 
+{% block static %}
+{{ block.super }}
+    <link href="{% static 'stories/css/author_story_list.css' %}" rel="stylesheet" type="text/css" media="all">
+{% endblock static%}
+
 
 {% block page_header %}
   <div class="card text-center">
@@ -40,9 +45,11 @@
 {% endblock page_button %}
 
 {% block section_after_story_list %}
+<div id="draft_stories" class="col-sm-12 col-md-5 col-lg-4 col-xl-3">
             <!-- Bootstrap card start-->
       {% for story in draft_stories %}
-      <div class="col-xs m-1">
+      
+      <div class="m-1">
         <div class="card rounded" style="width: 15rem;">
           <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
           <div class="card-body">
@@ -137,4 +144,6 @@
       </div>
     {% endfor %}
     <!-- Bootstrap card end-->
+
+</div>
 {% endblock section_after_story_list %}
