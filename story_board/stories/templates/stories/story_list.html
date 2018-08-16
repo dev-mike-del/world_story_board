@@ -12,7 +12,11 @@
 	{{ block.super }}
   
   {% block story_list %}
-  	<div class="row">
+  	<div class="row justify-content-center">
+
+      {% block section_before_story_list %}
+      {% endblock section_before_story_list %}
+      
   	        <!-- Bootstrap card start-->
       {% for story in published_stories %}
       <div class="col-xs m-1">
@@ -110,6 +114,10 @@
       </div>
     {% endfor %}
     <!-- Bootstrap card end-->
+
+    {% block section_after_story_list %}
+    {% endblock section_after_story_list %}
+
 	</div>
   {% endblock story_list %}
 

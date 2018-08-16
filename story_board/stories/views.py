@@ -134,6 +134,10 @@ class Author_Story_List(DetailView, FormView):
                 Q(author=kwargs['object']),
                 Q(published=True)).all()
 
+            context['draft_stories'] = Story.objects.filter(
+                Q(author=kwargs['object']),
+                Q(published=False)).all()
+
             author_user = User.objects.get(username=kwargs['object'])
             context['author'] = Author.objects.get(
                 user=author_user)
