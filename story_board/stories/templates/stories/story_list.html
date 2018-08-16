@@ -11,14 +11,13 @@
 {% block content %}
 	{{ block.super }}
   
+  
+      
   {% block story_list %}
   	<div class="row justify-content-center">
 
-      {% block section_before_story_list %}
-      {% endblock section_before_story_list %}
-      
   	        <!-- Bootstrap card start-->
-      {% for story in published_stories %}
+      {% for story in stories %}
       <div class="col-xs m-1">
         <div class="card rounded" style="width: 15rem;">
           <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
@@ -114,9 +113,6 @@
       </div>
     {% endfor %}
     <!-- Bootstrap card end-->
-
-    {% block section_after_story_list %}
-    {% endblock section_after_story_list %}
 
 	</div>
   {% endblock story_list %}

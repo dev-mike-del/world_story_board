@@ -78,7 +78,7 @@ def About(request):
     return render(request, 'stories/about.html')
 
 class Story_List(ListView, FormView):
-    context_object_name = 'published_stories'
+    context_object_name = 'stories'
     model = Story
     form_class = Story_Form
     template_name = 'stories/story_list.html'
@@ -130,17 +130,17 @@ class Author_Story_List(DetailView, FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         try:
-            context['published_stories'] = Story.objects.filter(
-                Q(author=kwargs['object']),
-                Q(published=True)).all()
+            host_author_user = User.objects.get(username=kwargs['object'])
+            host_author = Author.objects.get(user=host_author_user)
 
-            context['draft_stories'] = Story.objects.filter(
-                Q(author=kwargs['object']),
-                Q(published=False)).all()
+            if self.request.user == host_author_user:
+                context['stories'] = Story.objects.filter(author=host_author).all()
+            else:
+                context['stories'] = Story.objects.filter(
+                    Q(author=kwargs['object']),
+                    Q(published=True)).all()
 
-            author_user = User.objects.get(username=kwargs['object'])
-            context['author'] = Author.objects.get(
-                user=author_user)
+            context['author'] = host_author
 
             context['guest_author'] = Author.objects.get(
                 user=self.request.user)
