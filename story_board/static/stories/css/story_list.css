@@ -4,6 +4,11 @@ body{
    background: #f2e5f2; 
 }
 
+#nav_publish_button {
+	background: #d9ced9; 
+	color: black;
+}
+
 #a_story_author{
 	color: black;
 }

@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import ListView, FormView, DetailView
+from django.views.generic import ListView, FormView, DetailView, UpdateView
 
 from .forms import Story_Form
 from .models import Author, Story
@@ -34,6 +34,15 @@ def story_form(self, request):
             else:
                 pass
             story.save()
+
+
+def story_recall(self, request):
+    if 'recall' in self.request.POST:
+        story_id = request.POST.get('recall')
+        story = get_object_or_404(Story, id=story_id)
+        story.published = False
+        story.save()
+    
 
 
 def story_recommend(self, request):
@@ -75,7 +84,7 @@ class Story_List(ListView, FormView):
     template_name = 'stories/story_list.html'
 
     def get_queryset(self):
-        return self.model.objects.all().order_by('-id')
+        return self.model.objects.filter(published=True).order_by('-id')
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -95,10 +104,13 @@ class Story_List(ListView, FormView):
             story_recommend(self, request)
         except Exception:
             pass
-        finally:
-            return HttpResponseRedirect(Story.get_absolute_url(self))
+        try:
+            story_recall(self,request)
+        except Exception:
+            pass
+        return HttpResponseRedirect(Story.get_absolute_url(self))
 
-class Author_Story_List(DetailView, FormView):
+class Author_Story_List(DetailView, UpdateView, FormView):
     context_object_name = 'author'
     model = Author
     slug_field = 'author_slug'
@@ -118,12 +130,17 @@ class Author_Story_List(DetailView, FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         try:
-            context['stories'] = Story.objects.filter(
-                author=kwargs['object'])
+            host_author_user = User.objects.get(username=kwargs['object'])
+            host_author = Author.objects.get(user=host_author_user)
 
-            author_user = User.objects.get(username=kwargs['object'])
-            context['author'] = Author.objects.get(
-                user=author_user)
+            if self.request.user == host_author_user:
+                context['stories'] = Story.objects.filter(author=host_author).all().order_by('-id')
+            else:
+                context['stories'] = Story.objects.filter(
+                    Q(author=kwargs['object']),
+                    Q(published=True)).all().order_by('-id')
+
+            context['author'] = host_author
 
             context['guest_author'] = Author.objects.get(
                 user=self.request.user)
@@ -134,10 +151,34 @@ class Author_Story_List(DetailView, FormView):
 
     def post(self, request, *args, **kwargs):
         story_form(self, request)
-        story_recommend(self, request)
+        try:
+            story_recommend(self, request)
+        except Exception:
+            pass
+        try:
+            story_recall(self,request)
+        except Exception:
+            pass
         target_author = author_follow(self, request,)
         return redirect('stories:author_story_list', author_slug=target_author)
 
+
+class Author_Story_Update(UpdateView):
+    context_object_name = 'story'
+    model = Story
+    slug_field = 'story_slug'
+    slug_url_kwarg = 'story_slug'
+    form_class = Story_Form
+    template_name = 'stories/author_story_update.html'
+
+    def form_valid(self, form):
+        story = form.save(commit=False)
+        if "republish" in self.request.POST:
+            story.published = True
+            story.save()
+            return redirect('stories:author_story_list', author_slug=self.request.user)
+
+        
 
 class Following_Story_List(ListView, FormView):
     context_object_name = 'stories'

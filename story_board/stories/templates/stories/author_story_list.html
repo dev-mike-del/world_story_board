@@ -1,6 +1,11 @@
 {% extends "stories/story_list.html" %}
 {% load static from staticfiles %}
 
+{% block static %}
+{{ block.super }}
+    <link href="{% static 'stories/css/author_story_list.css' %}" rel="stylesheet" type="text/css" media="all">
+{% endblock static%}
+
 
 {% block page_header %}
   <div class="card text-center">
@@ -38,7 +43,3 @@
     {% endif %}
   {% endif %}
 {% endblock page_button %}
-
-{% block content %}
-  {{ block.super }}
-{% endblock content %}

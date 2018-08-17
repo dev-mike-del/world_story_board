@@ -17,6 +17,7 @@ from django.urls import path
 from .views import (
     Story_List, 
     Author_Story_List,
+    Author_Story_Update,
     Following_Story_List,
     About,
 )
@@ -43,5 +44,10 @@ urlpatterns = [
         'about',
         About,
         name="about"
+    ),
+    path(
+        'story/<slug:story_slug>',
+        Author_Story_Update.as_view(),
+        name="author_story_update"
     ),
 ]

@@ -57,6 +57,7 @@ class Story(models.Model):
     recommendations = models.ManyToManyField(
         Author, related_name='recommendations', blank=True)
     story_slug = models.SlugField(unique=True, default=uuid.uuid4, max_length=255)
+    published = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
