@@ -36,17 +36,13 @@ def story_form(self, request):
             story.save()
 
 
-def story_recall_and_republish(self, request):
+def story_recall(self, request):
     if 'recall' in self.request.POST:
         story_id = request.POST.get('recall')
         story = get_object_or_404(Story, id=story_id)
         story.published = False
         story.save()
-    if 'republish' in self.request.POST:
-        story_id = request.POST.get('republish')
-        story = get_object_or_404(Story, id=story_id)
-        story.published = True
-        story.save()
+    
 
 
 def story_recommend(self, request):
@@ -109,7 +105,7 @@ class Story_List(ListView, FormView):
         except Exception:
             pass
         try:
-            story_recall_and_republish(self,request)
+            story_recall(self,request)
         except Exception:
             pass
         return HttpResponseRedirect(Story.get_absolute_url(self))
@@ -160,7 +156,7 @@ class Author_Story_List(DetailView, UpdateView, FormView):
         except Exception:
             pass
         try:
-            story_recall_and_republish(self,request)
+            story_recall(self,request)
         except Exception:
             pass
         target_author = author_follow(self, request,)
@@ -175,6 +171,14 @@ class Author_Story_Update(UpdateView):
     form_class = Story_Form
     template_name = 'stories/author_story_update.html'
 
+    def form_valid(self, form):
+        story = form.save(commit=False)
+        if "republish" in self.request.POST:
+            story.published = True
+            story.save()
+            return redirect('stories:author_story_list', author_slug=self.request.user)
+
+        
 
 class Following_Story_List(ListView, FormView):
     context_object_name = 'stories'

@@ -38,8 +38,14 @@
 
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <input name="publish" type="submit" value="Publish" class="btn btn-primary">
+                  <a href="{% url 'stories:author_story_list' author_slug=user %}" class="btn btn-secondary" role="button">Close</a>
+                  <button class="btn btn-primary" data-toggle="tooltip" data-placement="top">        
+                    Publish
+                    <input name="republish" type="hidden" value="{{story.id}}" class="btn btn-sm">
+                  </button>
+                </div>
+                <div hidden>
+                  {{ form.author }}
                 </div>
               </form>
             </div>
