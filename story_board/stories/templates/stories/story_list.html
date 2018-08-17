@@ -26,6 +26,7 @@
             <!-- Card body start -->
             {% if story.published == False %}
               <h2>DRAFT</h2>
+              <p><small><a href="{% url 'stories:author_story_update' story_slug=story.story_slug %}"> edit</small></p>
             {% endif %}
             <h4 class="card-title"> 
               <a id="a_story_title" class="font-italic" data-toggle="modal" data-target="#exampleModalLong_{{ story.id }}" style="cursor: pointer;"> 
@@ -77,20 +78,15 @@
                   {% endif %}
 
                   {% if user == story.author.user %}
-                    
+                    {% if story.published == True %}
                       <form method="POST" class="btn btn-sm">
                       {% csrf_token %}
-                        <button class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top">
-                        {% if story.published == True %}
+                        <button class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top">        
                           Recall
                           <input name="recall" type="hidden" value="{{story.id}}" class="btn btn-sm">
-                        {% else %}
-                          Re-publish
-                          <input name="republish" type="hidden" value="{{story.id}}" class="btn btn-sm">
-                        {% endif %}
                         </button>
                       </form>
-
+                    {% endif %}
                 {% endif %}
               {% endif %}
               </div>

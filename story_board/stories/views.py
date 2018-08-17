@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import ListView, FormView, DetailView
+from django.views.generic import ListView, FormView, DetailView, UpdateView
 
 from .forms import Story_Form
 from .models import Author, Story
@@ -114,7 +114,7 @@ class Story_List(ListView, FormView):
             pass
         return HttpResponseRedirect(Story.get_absolute_url(self))
 
-class Author_Story_List(DetailView, FormView):
+class Author_Story_List(DetailView, UpdateView, FormView):
     context_object_name = 'author'
     model = Author
     slug_field = 'author_slug'
@@ -165,6 +165,15 @@ class Author_Story_List(DetailView, FormView):
             pass
         target_author = author_follow(self, request,)
         return redirect('stories:author_story_list', author_slug=target_author)
+
+
+class Author_Story_Update(UpdateView):
+    context_object_name = 'story'
+    model = Story
+    slug_field = 'story_slug'
+    slug_url_kwarg = 'story_slug'
+    form_class = Story_Form
+    template_name = 'stories/author_story_update.html'
 
 
 class Following_Story_List(ListView, FormView):
