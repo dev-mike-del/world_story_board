@@ -5,8 +5,12 @@ body{
 }
 
 #nav_publish_button {
-	background: #d9ced9; 
-	color: black;
+	display: none;
+}
+
+#mobile_publish_button {
+	margin-left: 84vw;
+	margin-bottom: 4vh;
 }
 
 #a_story_author{
@@ -24,4 +28,19 @@ body{
 #a_story_title:hover {
 	text-decoration: underline;
     color: black;
+}
+
+
+@media only screen and (min-width: 768px) {
+
+	#nav_publish_button {
+		display: inline;
+		background: #d9ced9; 
+		color: black;
+	}
+
+	#mobile_publish_button {
+		display: none;
+	}
+
 }
