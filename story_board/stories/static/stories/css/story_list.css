@@ -9,6 +9,11 @@ body{
 	color: black;
 }
 
+#mobile_publish_button {
+	margin-left: 84vw;
+	margin-bottom: 4vh;
+}
+
 #a_story_author{
 	color: black;
 }
