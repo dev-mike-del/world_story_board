@@ -1,12 +1,6 @@
 {% extends "stories/story_list.html" %}
 {% load static from staticfiles %}
 
-{% block static %}
-{{ block.super }}
-    <link href="{% static 'stories/css/author_story_list.css' %}" rel="stylesheet" type="text/css" media="all">
-{% endblock static%}
-
-
 {% block page_header %}
   <div class="card text-center">
     <div class="card-header">
@@ -14,6 +8,23 @@
     </div>
     <div class="card-body">
       <h5 class="card-title">{{ author }}</h5>
+        {% if user.is_authenticated %}
+          {% if user == author.user %}
+            {{ block.super }}
+          {% else %}
+            {% if guest_author.user in author.followers.all %}
+              <form method="POST" class="row justify-content-center">
+              {% csrf_token %}
+                <input name="unfollow" type="submit" value="Unfollow" class="btn-small btn-primary">
+              </form>
+            {% else %}
+              <form method="POST" class="row justify-content-center">
+              {% csrf_token %}
+                <input name="follow" type="submit" value="Follow" class="btn-small btn-primary">
+              </form>
+            {% endif %}
+          {% endif %}
+        {% endif %}
       <p class="card-text" hidden>With supporting text below as a natural lead-in to additional content.</p>
       <a href="#" class="btn btn-primary" hidden>Go somewhere</a>
     </div>
@@ -24,22 +35,3 @@
 {% endblock page_header %}
 
 
-{% block page_button %}
-  {% if user.is_authenticated %}
-    {% if user == author.user %}
-      {{ block.super }}
-    {% else %}
-      {% if guest_author.user in author.followers.all %}
-        <form method="POST" class="row float-right">
-        {% csrf_token %}
-          <input name="unfollow" type="submit" value="Unfollow" class="btn-small btn-primary mt-5 mr-2 mr-md-0">
-        </form>
-      {% else %}
-        <form method="POST" class="row float-right">
-        {% csrf_token %}
-          <input name="follow" type="submit" value="Follow" class="btn-small btn-primary mt-5 mr-2 mr-md-0">
-        </form>
-      {% endif %}
-    {% endif %}
-  {% endif %}
-{% endblock page_button %}
