@@ -93,3 +93,5 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 
 * [Tutorial: Adding https to a custom domain on Elastic Beanstalk](https://medium.com/in-development/tutorial-adding-https-to-a-custom-domain-on-elastic-beanstalk-29a5617b8842) - A tutorial by [James Beswick](https://medium.com/@jbesw)
 * [Automatically generating unique slugs in Django](https://keyerror.com/blog/automatically-generating-unique-slugs-in-django) - A tutorial by [KeyError: Blog](https://keyerror.com/blog)
+* [README-Template.md](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2) - A template to make good README.md by [Billie Thompson](https://github.com/PurpleBooth)
+
