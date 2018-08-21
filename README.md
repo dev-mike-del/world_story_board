@@ -40,7 +40,7 @@ Follow the link that the development provides to view the app in your browser
 
 You can now create an account and publish a story. 
 
-## Running the tests
+<!-- ## Running the tests
 
 Explain how to run the automated tests for this system
 
@@ -58,7 +58,7 @@ Explain what these tests test and why
 
 ```
 Give an example
-```
+``` -->
 
 ## Deployment
 
@@ -71,13 +71,13 @@ This application is deployed on AWS Elastic Beanstalk.
 * [Bootstrap](https://getbootstrap.com/docs/4.1/getting-started/introduction/) - Frontend styling
 * [AWS Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/) - Deployment 
 
-## Contributing
+<!-- ## Contributing
 
 Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).  -->
 
 ## Authors
 
