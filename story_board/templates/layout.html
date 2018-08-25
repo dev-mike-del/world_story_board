@@ -61,9 +61,11 @@
                   {% endif %}
                 </div>
               </li>
+              {% block nav_publish_button %}
               <li class="nav-item active">
                 <a id="nav_publish_button" type="button" class="btn-small btn-dark nav-link" data-toggle="modal" data-target="#exampleModalCenter"> Publish </a><span class="sr-only">(current)</span>
               </li>
+              {% endblock nav_publish_button %}
             </ul>
             <form class="form-inline my-2 my-md-0" hidden>
               <input class="form-control" type="text" placeholder="Search">
@@ -76,10 +78,6 @@
       {% endblock page_header %}
     
       {% block content %}
-
-      <div class="fixed-bottom">
-        <a id="mobile_publish_button" type="button" class="btn-small btn-dark text-center" data-toggle="modal" data-target="#exampleModalCenter"> Publish </a>
-      </div>
 
       {% endblock content %}
 
