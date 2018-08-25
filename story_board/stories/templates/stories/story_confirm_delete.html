@@ -13,7 +13,7 @@
           <div class="modal-content">
 
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Edit Your Story</h5>
+              <h5 class="modal-title" id="exampleModalLongTitle">Delete Your Story</h5>
 
             </div>
             <div class="modal-body">
@@ -26,7 +26,7 @@
                   {{ form.title.errors }}
                   <label for="recipient-name" class="col-form-label">Title:</label>
 
-                  {{ form.title }}
+                  {{ object.title }}
 
                 </div>
 
@@ -34,16 +34,12 @@
 
                   {{ form.body.errors }}
                   <label for="{{ form.body.id_for_label }}" class="col-form-label">Body:</label>
-                  {{ form.body }}
+                  {{ object.body }}
 
                 </div>
                 <div class="modal-footer">
-                  <a href="{% url 'stories:delete_story' story_slug=object.story_slug %}" class="btn btn-secondary" role="button">Delete</a>
-                  <a href="{% url 'stories:author_story_list' author_slug=user %}" class="btn btn-secondary" role="button">Close</a>
-                  <button class="btn btn-primary" data-toggle="tooltip" data-placement="top">        
-                    Publish
-                    <input name="republish" type="hidden" value="{{story.id}}" class="btn btn-sm">
-                  </button>
+					<p>Are you sure you want to delete "{{ object }}"?</p>
+					<input type="submit" value="Confirm">
                 </div>
                 <div hidden>
                   {{ form.author }}
@@ -55,4 +51,3 @@
       </div>
 
 {% endblock content %}
-
