@@ -2,7 +2,15 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import ListView, FormView, DetailView, UpdateView
+from django.views.generic import (
+    ListView, 
+    FormView, 
+    DetailView, 
+    UpdateView,
+    DeleteView,
+)
+
+from django.urls import reverse, reverse_lazy
 
 from .forms import Story_Form
 from .models import Author, Story
@@ -36,14 +44,18 @@ def story_form(self, request):
             story.save()
 
 
-def story_recall(self, request):
+def recall_story(self, request):
     if 'recall' in self.request.POST:
         story_id = request.POST.get('recall')
         story = get_object_or_404(Story, id=story_id)
         story.published = False
         story.save()
-    
 
+def delete_story(self, request_author):
+    if "delete" in self.request.POST:
+        story_id = request.POST.get('delete')
+        story = get_object_or_404(Story, id=story_id) 
+        story.save()
 
 def story_recommend(self, request):
     if 'recommend' or 'unrecommend' in self.request.POST:
@@ -105,7 +117,7 @@ class Story_List(ListView, FormView):
         except Exception:
             pass
         try:
-            story_recall(self,request)
+            recall_story(self,request)
         except Exception:
             pass
         return HttpResponseRedirect(Story.get_absolute_url(self))
@@ -156,7 +168,7 @@ class Author_Story_List(DetailView, UpdateView, FormView):
         except Exception:
             pass
         try:
-            story_recall(self,request)
+            recall_story(self,request)
         except Exception:
             pass
         target_author = author_follow(self, request,)
@@ -178,7 +190,15 @@ class Author_Story_Update(UpdateView):
             story.save()
             return redirect('stories:author_story_list', author_slug=self.request.user)
 
-        
+
+class Story_Delete(DeleteView):
+    model = Story
+    slug_field = 'story_slug'
+    slug_url_kwarg = 'story_slug'
+
+    def get_success_url(self):
+        return reverse('stories:story_list')
+
 
 class Following_Story_List(ListView, FormView):
     context_object_name = 'stories'

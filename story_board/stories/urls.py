@@ -20,6 +20,7 @@ from .views import (
     Author_Story_Update,
     Following_Story_List,
     About,
+    Story_Delete,
 )
 
 app_name = 'stories'
@@ -29,6 +30,11 @@ urlpatterns = [
         'following',
         Following_Story_List.as_view(),
         name="following_story_list"
+    ),
+    path(
+        'delete/<slug:story_slug>',
+        Story_Delete.as_view(),
+        name="delete_story"
     ),
     path(
         '',
