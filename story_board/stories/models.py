@@ -1,3 +1,4 @@
+import datetime
 import itertools
 import uuid
 
@@ -58,6 +59,8 @@ class Story(models.Model):
         Author, related_name='recommendations', blank=True)
     story_slug = models.SlugField(unique=True, default=uuid.uuid4, max_length=255)
     published = models.BooleanField(default=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+    date_modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
