@@ -18,6 +18,8 @@
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
       {% endblock static %}
+      <!-- Layout CSS -->
+      <link href="{% static 'stories/css/layout.css' %}" rel="stylesheet" type="text/css" media="all">
 
       <title>{% block title %}{% endblock title %}</title>
 
@@ -26,7 +28,7 @@
     <div class="container-fluid">
 
       {% block nav %}
-        <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
+        <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark" id="navbar">
           <a class="navbar-brand" href="{% url 'stories:story_list' %}">Story Board</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
