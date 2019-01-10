@@ -5,5 +5,7 @@
 
 	#nav_publish_button {
 		display: inline;
+		background: rgb(49, 55, 62); 
+		color: white;
 	}
 }
