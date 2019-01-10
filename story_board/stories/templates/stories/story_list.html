@@ -38,7 +38,11 @@
             <h6 class="card-subtitle text-muted">By: Anonymous
             </h6>
             {% endif %}
+            {% if story.is_posted_today %}
+            <p class="mb-1"><small>Today @{{story.date_modified |time}}</small></p>
+            {% else %}
             <p class="mb-1"><small>{{story.date_modified |date:"m/d/y"}}</small></p>
+            {% endif %}
             <p class="card-text mb-0"> 
               {{ story.body|truncatechars:200 }}
                <!-- Button trigger modal start -->

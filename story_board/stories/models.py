@@ -88,8 +88,8 @@ class Story(models.Model):
         super(Story, self).save(*args, **kwargs)
 
     @property
-    def is_post_today(self):
-        if datetime.date.today() == self.date_modified.date():
+    def is_posted_today(self):
+        if datetime.datetime.today().date() == self.date_modified.date():
             return True
         else:
             return False
