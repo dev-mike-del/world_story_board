@@ -14,11 +14,12 @@
       <meta name="twitter:description" content="This is the World Story Board!" />
       <meta name="twitter:image" content="https://s3-us-west-2.amazonaws.com/world-story-board-twitter-card-img/2018-08-16.png" />
 
-      {% block static %}
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
       <!-- Layout CSS -->
       <link href="{% static 'stories/css/layout.css' %}" rel="stylesheet" type="text/css" media="all">
+      
+      {% block static %}
       {% endblock static %}
 
       <title>{% block title %}{% endblock title %}</title>
