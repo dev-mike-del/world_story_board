@@ -48,6 +48,9 @@
               <li class="nav-item active">
                 <a class="nav-link" href="{% url 'stories:about' %}"> About </a><span class="sr-only">(current)</span>
               </li>
+              <li class="nav-item active">
+                <a class="nav-link" data-toggle="modal" data-target="#exampleModalCenter" id="publish_nav_link"> Publish </a><span class="sr-only">(current)</span>
+              </li>
               {% endif %}
               
               <li class="nav-item dropdown">
@@ -64,11 +67,6 @@
                   {% endif %}
                 </div>
               </li>
-              {% block nav_publish_button %}
-              <li class="nav-item active">
-                <a type="button" class="btn-small btn-dark nav-link" data-toggle="modal" data-target="#exampleModalCenter" id="nav_publish_button"> Publish </a><span class="sr-only">(current)</span>
-              </li>
-              {% endblock nav_publish_button %}
             </ul>
             <form class="form-inline my-2 my-md-0" hidden>
               <input class="form-control" type="text" placeholder="Search">
