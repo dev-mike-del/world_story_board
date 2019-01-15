@@ -112,3 +112,5 @@ story_board_env/
 *.swo
 tasks.txt
 .pyc
+
+story_board/story_board/secret_key.py
