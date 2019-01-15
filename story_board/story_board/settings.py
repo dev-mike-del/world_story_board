@@ -24,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECRET_KEY = secret_key.secret_key
 # SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 try:
-    SECRET_KEY = secret_key.secret_key
-except ImportError:
     SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+except ImportError:
+    SECRET_KEY = secret_key.secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
