@@ -1,7 +1,7 @@
-awscli==1.15.66
-awsebcli==3.14.3
+awscli==1.16.89
+awsebcli==3.14.9
 blessed==1.15.0
-botocore==1.10.65
+botocore==1.12.79
 cached-property==1.4.3
 cement==2.8.2
 certifi==2018.4.16
@@ -9,7 +9,7 @@ chardet==3.0.4
 colorama==0.3.9
 Django==2.0.10
 docker==3.7.0
-docker-compose==1.21.2
+docker-compose==1.23.2
 docker-pycreds==0.4.0
 dockerpty==0.4.1
 docopt==0.6.2
@@ -23,7 +23,7 @@ pyasn1==0.4.4
 python-dateutil==2.7.3
 pytz==2018.5
 PyYAML==3.13
-requests==2.21.0
+requests==2.20.1
 rsa==3.4.2
 s3transfer==0.1.13
 semantic-version==2.5.0
@@ -31,6 +31,6 @@ six==1.11.0
 tabulate==0.7.5
 termcolor==1.1.0
 texttable==0.9.1
-urllib3==1.23
+urllib3==1.24.1
 wcwidth==0.1.7
 websocket-client==0.48.0
