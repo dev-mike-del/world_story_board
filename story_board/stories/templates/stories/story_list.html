@@ -39,7 +39,7 @@
             </h6>
             {% endif %}
             {% if story.is_posted_today %}
-            <p class="mb-1"><small>Today @{{story.date_modified |time}}</small></p>
+            <p class="mb-1"><small>{{story.date_modified |timesince}} ago</small></p>
             {% else %}
             <p class="mb-1"><small>{{story.date_modified |date:"m/d/y"}}</small></p>
             {% endif %}
