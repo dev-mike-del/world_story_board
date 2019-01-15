@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-from story_board import secret_key
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +24,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 try:
     SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-except ImportError:
+except Exception:
+    from story_board import secret_key
     SECRET_KEY = secret_key.secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
