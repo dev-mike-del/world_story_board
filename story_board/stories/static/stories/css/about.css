@@ -1,4 +1,9 @@
-
+body{
+	min-width:315px; // Suppose you want minimum width of 315px
+	_width: expression( document.body.clientWidth > 315 ? "315px" : "auto" ); /* sets max-width for IE6 */
+	/*font-family: 'Noto Sans', sans-serif;*/
+	font-family: 'Staatliches', cursive;
+}
 
 #see_stories_link,
 #register_link {
@@ -6,17 +11,29 @@
 	text-decoration: underline;
 }
 
-.p_font_size {
+/*.p_font_size {
 	font-size: 1.45rem;
 	font-weight: 545;
-}
+}*/
 
+.p_font_size {
+		font-size: 6rem;
+		color: white;
+		line-height: 1.10;
+	}
+ .top_image {
+ 	background-image: url("../media/farmland.jpg");
+	background-repeat: no-repeat;
+	padding-top: 10vh;
+	height: 90vh;
+ }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 601px) {
 
-	.container-fluid {
-		padding-right: 25%;
-		padding-left: 25%;
+	.p_font_size {
+		font-size: 9rem;
+		line-height: 1.20;
+		/*font-weight: 900;*/
 	}
 
 }
