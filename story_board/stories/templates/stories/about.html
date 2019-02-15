@@ -70,35 +70,37 @@
             </div>
         </nav>
 
-        <div class="row first_bg_image mr-0 ml-0">
+        <div id="first_bg" class="row mr-0 ml-0">
             <div class="col">
                 <p id="first_about_p1" class="text-center">Michael Delgado</p>
                 <p id="first_about_p2" class="text-center">project: World Story Board</p>
             </div>
         </div>
 
-        <div class="row second_bg_image mr-0 ml-0">
+        <div id="second_bg" class="row mr-0 ml-0">
             <div class="col">
-                <p class="revealOnScroll" data-animation="fadeInRightBig" id="second_about_p">Features</p>
+                <p id="second_about_p">Features</p>
                 <ul id="features_list">
-                    <li class="revealOnScroll" data-animation="fadeInLeftBig">Register</li>
-                    <li class="revealOnScroll" data-animation="fadeInLeftBig">Profile Page</li>
-                    <li class="revealOnScroll" data-animation="fadeInLeftBig">Create, Edit & Publish</li>
-                    <li class="revealOnScroll" data-animation="fadeInLeftBig">Publish without an account</li>
-                    <li class="revealOnScroll" data-animation="fadeInLeftBig">Unpublish Story(with account)</li>
-                    <li class="revealOnScroll" data-animation="fadeInLeftBig">Follow Authors(with account) </li>
-                    <li class="revealOnScroll" data-animation="fadeInLeftBig">Recommend Stories(with account)</li>
+                    <li>Register</li>
+                    <li>Profile Page</li>
+                    <li>Create, Edit & Publish</li>
+                    <li>Publish without an account</li>
+                    <li>Unpublish Story(with account)</li>
+                    <li>Follow Authors(with account) </li>
+                    <li>Recommend Stories(with account)</li>
                 </ul>
             </div>
         </div>
 
-        <div class="row third_bg_image mr-0 ml-0">
+        <div id="third_bg" class="row mr-0 ml-0">
             <div class="col">
-                <p class="third_about_p revealOnScroll" data-animation="fadeInRightBig pl-5">Built With:</p>
-                <p class="third_about_p text-center revealOnScroll" data-animation="fadeInLeftBig">Python</p>
-                <p class="third_about_p text-center revealOnScroll" data-animation="fadeInLeftBig">Django</p>
-                <p class="third_about_p text-center revealOnScroll" data-animation="fadeInLeftBig">PostgreSQL</p>
-                <p class="third_about_p text-center revealOnScroll" data-animation="fadeInLeftBig">AWS</p> 
+                <p id="third_about_p">Built With:</p>
+                <ul id="built_with_list">
+                    <li>Python</li>
+                    <li>Django</li>
+                    <li>PostgreSQL</li>
+                    <li>AWS</li>
+                </ul>
             </div>
         </div>
 
@@ -174,8 +176,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.js"></script>
-<script src="{% static 'stories/js/about.js' %}"></script>
 
 </body>
 </html>
