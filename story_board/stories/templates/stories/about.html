@@ -14,7 +14,6 @@
 <link href="{% static 'stories/css/layout.css' %}" rel="stylesheet" type="text/css" media="all">
 <link href="https://fonts.googleapis.com/css?family=Oswald:500|Staatliches" rel="stylesheet">
 <link href="{% static 'stories/css/about.css' %}" rel="stylesheet" type="text/css" media="all">
-<script src="https://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.7.2.js"></script>
 
 <title></title>
 
@@ -79,13 +78,13 @@
             <div class="col">
                 <p id="second_about_p">Features</p>
                 <ul id="features_list">
-                    <li>Register</li>
-                    <li>Profile Page</li>
-                    <li>Create, Edit & Publish</li>
-                    <li>Publish without an account</li>
-                    <li>Unpublish Story(with account)</li>
-                    <li>Follow Authors(with account) </li>
-                    <li>Recommend Stories(with account)</li>
+                    <li class="about_list_li">Register</li>
+                    <li class="about_list_li">Profile Page</li>
+                    <li class="about_list_li">Create, Edit & Publish</li>
+                    <li class="about_list_li">Publish without an account</li>
+                    <li class="about_list_li">Unpublish Story(with account)</li>
+                    <li class="about_list_li">Follow Authors(with account) </li>
+                    <li class="about_list_li">Recommend Stories(with account)</li>
                 </ul>
             </div>
         </div>
@@ -94,31 +93,31 @@
             <div class="col">
                 <p id="third_about_p">Built With:</p>
                 <ul id="built_with_list">
-                    <li>Python (programmnig language)</li>
-                    <li>Django (web framework)</li>
-                    <li>PostgreSQL (database)</li>
-                    <li>AWS (cloud host)</li>
+                    <li class="about_list_li">Python (programmnig language)</li>
+                    <li class="about_list_li">Django (web framework)</li>
+                    <li class="about_list_li">PostgreSQL (database)</li>
+                    <li class="about_list_li">AWS (cloud host)</li>
                 </ul>
             </div>
         </div>
 
-        <footer>
-            <div class="row mr-0 ml-0">
-                <div class="col text-center pr-0 pl-0">
-                    <a href="">Github</a>
-                </div>
-                <div class="col text-center pr-0 pl-0">
-                    <a href="">LinkIn</a>
-                </div>
-                <div class="col text-center pr-0 pl-0">
-                    <a href="">Twitter</a>
-                </div>
+        <footer id="about_footer" class="row mr-0 ml-0">
+           
+            <div class="col text-center pr-0 pl-0">
+                <a href="https://github.com/dev-mike-del" target="_blank" title="Github"><img class="footer_icon" src="{% static 'stories/media/github_icon.png'%}" alt="icon"></a>
             </div>
-            <div class="row mr-0 ml-0">
-                <div class="col text-center pr-0 pl-0">
-                    <a class="text-center" href="">Michael Delgado</a>
-                </div>
+            <div class="col text-center pr-0 pl-0">
+                <a href="https://www.linkedin.com/in/mike-del/" target="_blank" title="LinkedIn"><img class="footer_icon" src="{% static 'stories/media/linkedin_icon.png'%}" alt="icon"></a>
             </div>
+            <div class="col text-center pr-0 pl-0">
+                <a href="http://www.twitter.com/dev_mike_del" target="_blank" title="Twitter"><img class="footer_icon" src="{% static 'stories/media/twitter_icon.svg'%}" alt="icon"></a>
+            </div>
+        
+
+            <div class="col-12 text-center pr-0 pl-0">
+                <p id="copyright_info" class="text-center"><small>&copy;{% now "Y" %} Michael Delgado. All Rights Reserved</small></p>
+            </div>
+
         </footer>
 
         <!-- Pop UP Modal (hidden until user clicks the Publish button-->
