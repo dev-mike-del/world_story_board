@@ -1,53 +1,181 @@
-{% extends "stories/layout.html" %}
 {% load static from staticfiles %}
 
-{% block static %}
-{{ block.super }}
-    <link href="{% static 'stories/css/about.css' %}" rel="stylesheet" type="text/css" media="all">
-{% endblock static%}
+<!doctype html>
+<html lang="en">
+<head>
 
-{% block nav_publish_button %}
-{% endblock nav_publish_button %}
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-{% block content %}
-	<div class="row pt-3 pl-3">
-		<div class="col-12 text-center">
-			<h1 class="font-weight-bold">
-				About
-			</h1>
-		</div>
-	</div>
-	<div class="row pb-5 pb-md-1">
-		<div class="col-3 pt-5">
-			<h2>
-				Welcome!
-			</h2>
-		</div>
-		<div class="col-12 pl-4">
-			<div class="col-lg">
-				<p class="p_font_size">
-					Story Board is a platform for creating and publishing stories. A story is anything from an actual full length fictional story to the story of your day or anything else that you wish to publish. You can pushlish a story with a user account or you can create an anonymous story. 
-				</p>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md pt-md-5 pl-4">
-			<h2>
-				Create an Account:
-			</h2>
-			<p class="p_font_size">
-				With an account, you can publish a story with a by line, view all of your published stories on your profile page, recommend stories and follow other authors.<br> <a href="{% url 'account:register' %}"><small id="register_link">register</small></a>
-			</p>
-		</div>
-		<div class="col-md pt-md-5 pl-4">
-			<h2>
-				Publish without an Account:
-			</h2>
-			<p class="p_font_size">
-				Without an account, you can publish a story without a by line. You can view other author's profile pages but you can not follow them or recommend thier stories. <br> <a href="{% url 'stories:story_list' %}"><small id="see_stories_link">see stories</small></a>
-			</p>
-		</div>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<!-- Layout CSS -->
+<link href="{% static 'stories/css/layout.css' %}" rel="stylesheet" type="text/css" media="all">
+<link href="https://fonts.googleapis.com/css?family=Oswald:500|Staatliches" rel="stylesheet">
+<link href="{% static 'stories/css/about.css' %}" rel="stylesheet" type="text/css" media="all">
+<script src="https://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.7.2.js"></script>
 
-	</div>
-{% endblock content %}
+<title></title>
+
+</head>
+
+<body >
+
+
+
+<div class="container-fluid pl-0 pr-0" >
+
+        <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark" id="navbar">
+            <a class="navbar-brand" href="{% url 'stories:story_list' %}">Story Board</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarsExample04">
+                <ul class="navbar-nav mr-auto">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'stories:author_story_list' author_slug=user|slugify %}"> {{ user }} <span class="sr-only">(current)</span></a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'accounts:login' %}"> Login </a><span class="sr-only">(current)</span>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'stories:about' %}"> About </a><span class="sr-only">(current)</span>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item active">
+                        <a class="nav-link" data-toggle="modal" data-target="#exampleModalCenter" id="publish_nav_link"> Publish </a><span class="sr-only">(current)</span>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown04">
+                            {% if user.is_authenticated %}
+                            <a class="dropdown-item" href="{% url 'stories:following_story_list' %}">Following</a>
+                            {% else %}
+                            <a class="dropdown-item" href="{% url 'accounts:register' %}">Register</a>
+                            {% endif %}
+                            {% if user.is_authenticated %}
+                            <a class="dropdown-item" href="{% url 'stories:about' %}">About</a>
+                            <a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a>
+                            {% endif %}
+                        </div>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-md-0" hidden>
+                    <input class="form-control" type="text" placeholder="Search">
+                </form>
+            </div>
+        </nav>
+
+        <div class="row first_bg_image mr-0 ml-0">
+            <div class="col">
+                <p id="first_about_p1" class="text-center">Michael Delgado</p>
+                <p id="first_about_p2" class="text-center">project: World Story Board</p>
+            </div>
+        </div>
+
+        <div class="row second_bg_image mr-0 ml-0">
+            <div class="col">
+                <p class="revealOnScroll" data-animation="fadeInRightBig" id="second_about_p">Features</p>
+                <ul id="features_list">
+                    <li class="revealOnScroll" data-animation="fadeInLeftBig">Register</li>
+                    <li class="revealOnScroll" data-animation="fadeInLeftBig">Profile Page</li>
+                    <li class="revealOnScroll" data-animation="fadeInLeftBig">Create, Edit & Publish</li>
+                    <li class="revealOnScroll" data-animation="fadeInLeftBig">Publish without an account</li>
+                    <li class="revealOnScroll" data-animation="fadeInLeftBig">Unpublish Story(with account)</li>
+                    <li class="revealOnScroll" data-animation="fadeInLeftBig">Follow Authors(with account) </li>
+                    <li class="revealOnScroll" data-animation="fadeInLeftBig">Recommend Stories(with account)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row third_bg_image mr-0 ml-0">
+            <div class="col">
+                <p class="third_about_p revealOnScroll" data-animation="fadeInRightBig pl-5">Built With:</p>
+                <p class="third_about_p text-center revealOnScroll" data-animation="fadeInLeftBig">Python</p>
+                <p class="third_about_p text-center revealOnScroll" data-animation="fadeInLeftBig">Django</p>
+                <p class="third_about_p text-center revealOnScroll" data-animation="fadeInLeftBig">PostgreSQL</p>
+                <p class="third_about_p text-center revealOnScroll" data-animation="fadeInLeftBig">AWS</p> 
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+
+                        <div class="form-group">
+
+                            {{ form.title.errors }}
+                            <label for="recipient-name" class="col-form-label">Title:</label>
+
+                            {{ form.title }}
+
+                        </div>
+
+                        <div class="form-group">
+
+                            {{ form.body.errors }}
+                            <label for="{{ form.body.id_for_label }}" class="col-form-label">Body:</label>
+                            {{ form.body }}
+
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input name="publish" type="submit" value="Publish" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div> <!-- container -->
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.0.js"></script>
+<script src="{% static 'stories/js/about.js' %}"></script>
+
+</body>
+</html>
