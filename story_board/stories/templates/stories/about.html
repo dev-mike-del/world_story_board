@@ -14,7 +14,6 @@
 <link href="{% static 'stories/css/layout.css' %}" rel="stylesheet" type="text/css" media="all">
 <link href="https://fonts.googleapis.com/css?family=Oswald:500|Staatliches" rel="stylesheet">
 <link href="{% static 'stories/css/about.css' %}" rel="stylesheet" type="text/css" media="all">
-<script src="https://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.7.2.js"></script>
 
 <title></title>
 
@@ -22,9 +21,7 @@
 
 <body >
 
-
-
-<div class="container-fluid pl-0 pr-0" >
+    <div class="container-fluid pl-0 pr-0" >
 
         <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark" id="navbar">
             <a class="navbar-brand" href="{% url 'stories:story_list' %}">Story Board</a>
@@ -81,13 +78,13 @@
             <div class="col">
                 <p id="second_about_p">Features</p>
                 <ul id="features_list">
-                    <li>Register</li>
-                    <li>Profile Page</li>
-                    <li>Create, Edit & Publish</li>
-                    <li>Publish without an account</li>
-                    <li>Unpublish Story(with account)</li>
-                    <li>Follow Authors(with account) </li>
-                    <li>Recommend Stories(with account)</li>
+                    <li class="about_list_li">Register</li>
+                    <li class="about_list_li">Profile Page</li>
+                    <li class="about_list_li">Create, Edit & Publish</li>
+                    <li class="about_list_li">Publish without an account</li>
+                    <li class="about_list_li">Unpublish Story(with account)</li>
+                    <li class="about_list_li">Follow Authors(with account) </li>
+                    <li class="about_list_li">Recommend Stories(with account)</li>
                 </ul>
             </div>
         </div>
@@ -96,80 +93,75 @@
             <div class="col">
                 <p id="third_about_p">Built With:</p>
                 <ul id="built_with_list">
-                    <li>Python</li>
-                    <li>Django</li>
-                    <li>PostgreSQL</li>
-                    <li>AWS</li>
+                    <li class="about_list_li">Python (programmnig language)</li>
+                    <li class="about_list_li">Django (web framework)</li>
+                    <li class="about_list_li">PostgreSQL (database)</li>
+                    <li class="about_list_li">AWS (cloud host)</li>
                 </ul>
             </div>
         </div>
 
+        <footer id="about_footer" class="row mr-0 ml-0">
+           
+            <div class="col text-center pr-0 pl-0">
+                <a href="https://github.com/dev-mike-del" target="_blank" title="Github"><img class="footer_icon" src="{% static 'stories/media/github_icon.png'%}" alt="icon"></a>
+            </div>
+            <div class="col text-center pr-0 pl-0">
+                <a href="https://www.linkedin.com/in/mike-del/" target="_blank" title="LinkedIn"><img class="footer_icon" src="{% static 'stories/media/linkedin_icon.png'%}" alt="icon"></a>
+            </div>
+            <div class="col text-center pr-0 pl-0">
+                <a href="http://www.twitter.com/dev_mike_del" target="_blank" title="Twitter"><img class="footer_icon" src="{% static 'stories/media/twitter_icon.svg'%}" alt="icon"></a>
+            </div>
+        
 
+            <div class="col-12 text-center pr-0 pl-0">
+                <p id="copyright_info" class="text-center"><small>&copy;{% now "Y" %} Michael Delgado. All Rights Reserved</small></p>
+            </div>
 
+        </footer>
 
+        <!-- Pop UP Modal (hidden until user clicks the Publish button-->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
 
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form.non_field_errors }}
 
+                            <div class="form-group">
 
+                                {{ form.title.errors }}
+                                <label for="recipient-name" class="col-form-label">Title:</label>
 
+                                {{ form.title }}
 
+                            </div>
 
+                            <div class="form-group">
 
+                                {{ form.body.errors }}
+                                <label for="{{ form.body.id_for_label }}" class="col-form-label">Body:</label>
+                                {{ form.body }}
 
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST">
-                        {% csrf_token %}
-                        {{ form.non_field_errors }}
-
-                        <div class="form-group">
-
-                            {{ form.title.errors }}
-                            <label for="recipient-name" class="col-form-label">Title:</label>
-
-                            {{ form.title }}
-
-                        </div>
-
-                        <div class="form-group">
-
-                            {{ form.body.errors }}
-                            <label for="{{ form.body.id_for_label }}" class="col-form-label">Body:</label>
-                            {{ form.body }}
-
-                        </div>
-                        <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <input name="publish" type="submit" value="Publish" class="btn btn-primary">
-                        </div>
-                    </form>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input name="publish" type="submit" value="Publish" class="btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-</div> <!-- container -->
+    </div> <!-- container -->
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
