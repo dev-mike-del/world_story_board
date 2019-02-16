@@ -39,13 +39,33 @@
 
 {% block footer %}
 
-    <footer class="footer text-center px-5">
+<!--     <footer class="footer text-center px-5">
             <div class="col-12 text-muted">
                 <small>
                     © 2018 Copyright: Michael Delgado
                 </small>
             </div>
         </div>
-    </footer>
+    </footer> -->
+
+
+    <footer class="row mr-0 ml-0 footer">
+           
+            <div class="col text-center pr-0 pl-0">
+                <a href="https://github.com/dev-mike-del" target="_blank" title="Github"><img class="footer_icon" src="{% static 'stories/media/github_icon.png'%}" alt="icon"></a>
+            </div>
+            <div class="col text-center pr-0 pl-0">
+                <a href="https://www.linkedin.com/in/mike-del/" target="_blank" title="LinkedIn"><img class="footer_icon" src="{% static 'stories/media/linkedin_icon.png'%}" alt="icon"></a>
+            </div>
+            <div class="col text-center pr-0 pl-0">
+                <a href="http://www.twitter.com/dev_mike_del" target="_blank" title="Twitter"><img class="footer_icon" src="{% static 'stories/media/twitter_icon.svg'%}" alt="icon"></a>
+            </div>
+        
+
+            <div class="col-12 text-center pr-0 pl-0">
+                <p class="text-center copyright_info"><small>&copy;{% now "Y" %} Michael Delgado. All Rights Reserved</small></p>
+            </div>
+
+        </footer>
 
 {% endblock footer %}
