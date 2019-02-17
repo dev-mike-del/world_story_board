@@ -89,6 +89,9 @@ def author_follow(self, request):
 def About(request):
     return render(request, 'stories/about.html')
 
+def Sitemap(request):
+    return render(request, 'stories/sitemap.xml')
+
 class Story_List(ListView, FormView):
     context_object_name = 'stories'
     model = Story

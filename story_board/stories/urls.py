@@ -20,6 +20,7 @@ from .views import (
     Author_Story_Update,
     Following_Story_List,
     About,
+    Sitemap,
     Story_Delete,
 )
 
@@ -55,5 +56,10 @@ urlpatterns = [
         'story/<slug:story_slug>',
         Author_Story_Update.as_view(),
         name="author_story_update"
+    ),
+    path(
+        'sitemap',
+        Sitemap,
+        name="sitemap"
     ),
 ]
