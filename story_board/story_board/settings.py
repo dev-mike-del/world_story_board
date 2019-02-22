@@ -148,3 +148,15 @@ STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
 
 LOGIN_REDIRECT_URL = "stories:story_list"
+
+
+# REST Framework
+REST_FRAMEWORK = {
+    'DEFUALT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',    
+    ),
+    'DEFUALT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',    
+    ),
+
+}
