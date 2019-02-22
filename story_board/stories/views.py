@@ -9,8 +9,9 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-
 from django.urls import reverse, reverse_lazy
+
+from rest_framework import generics
 
 from .forms import Story_Form
 from .models import Author, Story
