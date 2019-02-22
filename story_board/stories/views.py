@@ -15,6 +15,7 @@ from rest_framework import generics
 
 from .forms import Story_Form
 from .models import Author, Story
+from .serializers import AuthorSerializer, StorySerializer
 
 
 User = get_user_model()
@@ -92,6 +93,19 @@ def About(request):
 
 def Sitemap(request):
     return render(request, 'stories/sitemap.xml')
+
+
+class ListCreateAuthor(generics.ListCreateAPIView):
+    """docstring for ListCreateAuthor"""
+    queryset = Author.objects.filter()
+    serializer_class = AuthorSerializer
+
+
+class ListCreateStory(generics.ListCreateAPIView):
+    """docstring for ListCreateStory"""
+    queryset = Story.objects.filter(published=True)
+    serializer_class = StorySerializer
+
 
 class Story_List(ListView, FormView):
     context_object_name = 'stories'
