@@ -95,16 +95,37 @@ def Sitemap(request):
     return render(request, 'stories/sitemap.xml')
 
 
-class ListCreateAuthor(generics.ListCreateAPIView):
-    """docstring for ListCreateAuthor"""
-    queryset = Author.objects.filter()
-    serializer_class = AuthorSerializer
+# API Views
 
 
 class ListCreateStory(generics.ListCreateAPIView):
     """docstring for ListCreateStory"""
     queryset = Story.objects.filter(published=True)
     serializer_class = StorySerializer
+
+
+class ListCreateRecommendation(generics.ListCreateAPIView):
+    """docstring for ListCreateStory"""
+    queryset = Story.objects.all()
+    serializer_class = StorySerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(id=self.kwargs.get('pk'))
+
+
+class RetrieveUpdateDestroyStory(generics.RetrieveUpdateDestroyAPIView):
+    """docstring for ListCreateStory"""
+    queryset = Story.objects.filter(published=True)
+    serializer_class = StorySerializer
+
+
+class RetrieveUpdateDestroyRecommendation(generics.RetrieveUpdateDestroyAPIView):
+    """docstring for ListCreateStory"""
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+
+
+# End of API Views
 
 
 class Story_List(ListView, FormView):

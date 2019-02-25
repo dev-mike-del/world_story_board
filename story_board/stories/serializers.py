@@ -9,7 +9,7 @@ class AuthorSerializer(serializers.ModelSerializer):
 		fields = (
 			'id',
 			'user',
-			'followrs',
+			'followers',
 			'following',
 			'author_slug',
 		)
@@ -25,9 +25,6 @@ class StorySerializer(serializers.ModelSerializer):
 			'body',
 			'author',
 			'recommendations',
-			'story_slug',
 			'published',
-			'date_created',
-			'date_modified',
 		)
 		model =  Story

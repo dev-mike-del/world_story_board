@@ -114,3 +114,5 @@ tasks.txt
 .pyc
 
 story_board/story_board/secret_key.py
+
+.idea/

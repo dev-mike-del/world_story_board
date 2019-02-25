@@ -24,5 +24,6 @@ urlpatterns = [
             namespace='rest_framework',
         )
     ),
+    
 	path('', include('stories.urls', namespace='stories')),
 ]
