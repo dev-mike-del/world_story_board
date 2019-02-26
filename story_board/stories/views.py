@@ -53,11 +53,13 @@ def recall_story(self, request):
         story.published = False
         story.save()
 
+
 def delete_story(self, request_author):
     if "delete" in self.request.POST:
         story_id = request.POST.get('delete')
         story = get_object_or_404(Story, id=story_id) 
         story.save()
+
 
 def story_recommend(self, request):
     if 'recommend' or 'unrecommend' in self.request.POST:
@@ -90,6 +92,7 @@ def author_follow(self, request):
 
 def About(request):
     return render(request, 'stories/about.html')
+
 
 def Sitemap(request):
     return render(request, 'stories/sitemap.xml')
