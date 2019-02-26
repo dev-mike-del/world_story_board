@@ -110,10 +110,11 @@ class ListCreateStory(generics.ListCreateAPIView):
 class ListCreateRecommendation(generics.ListCreateAPIView):
     """docstring for ListCreateStory"""
     queryset = Story.objects.all()
-    serializer_class = StorySerializer
+    serializer_class = AuthorSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(id=self.kwargs.get('pk'))
+        story = self.queryset.filter(id=self.kwargs.get('pk')).get()
+        return story.recommendations.all()
 
 
 class RetrieveUpdateDestroyStory(generics.RetrieveUpdateDestroyAPIView):

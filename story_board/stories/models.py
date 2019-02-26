@@ -17,6 +17,7 @@ class Author(models.Model):
     """docstring for Post"""
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE,)
+    username = models.CharField(max_length=200, blank=True)
     bio = models.TextField(max_length=500, blank=True)
     followers = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name='followers', blank=True,)
@@ -36,8 +37,10 @@ class Author(models.Model):
 
         for x in itertools.count(1):
             if self.id:
-                if Author.objects.filter(Q(author_slug=self.author_slug),
-                    Q(user=self.user)).exists():
+                if Author.objects.filter(
+                        Q(author_slug=self.author_slug),
+                        Q(user=self.user)
+                ).exists():
                     break
             if not Author.objects.filter(author_slug=self.author_slug).exists():
                 break
@@ -45,7 +48,7 @@ class Author(models.Model):
             # Truncate the original slug dynamically. Minus 1 for the hyphen.
             self.author_slug = "%s-%d" % (orig[:max_length - len(str(x)) - 1], x)
 
-
+        self.username = self.user.username
         super(Author, self).save(*args, **kwargs)
 
 

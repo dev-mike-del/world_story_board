@@ -7,8 +7,7 @@ class AuthorSerializer(serializers.ModelSerializer):
     """docstring for AuthorSerializer"""
     class Meta:
         fields = (
-            'id',
-            'user',
+            'username',
             'bio',
             'followers',
             'following',
@@ -20,7 +19,9 @@ class AuthorSerializer(serializers.ModelSerializer):
 class StorySerializer(serializers.ModelSerializer):
     """docstring for StorySerializer"""
 
-    author = AuthorSerializer()
+    # author = AuthorSerializer()
+    # recommendations = AuthorSerializer(many=True)
+
     class Meta:
         fields = (
             'id',
