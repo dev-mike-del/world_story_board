@@ -107,8 +107,8 @@ class StoryViewSet(viewsets.ModelViewSet):
     serializer_class = StorySerializer
 
 
-class RecommendationViewSet(viewsets.ModelViewSet):
-    queryset = Story.objects.all()
+class AuthorViewSet(viewsets.ModelViewSet):
+    queryset = Author.objects.all()
     serializer_class = AuthorSerializer
 # End of API v1
 

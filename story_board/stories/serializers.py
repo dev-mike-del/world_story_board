@@ -13,6 +13,11 @@ class AuthorSerializer(serializers.ModelSerializer):
             'following',
             'author_slug',
         )
+        read_only_fields = ('id',
+                            'followers',
+                            'following',
+                            'author_slug',
+                            )
         model = Author
 
 
