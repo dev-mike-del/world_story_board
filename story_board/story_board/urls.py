@@ -23,7 +23,7 @@ from stories import views
 
 router = routers.SimpleRouter()
 router.register(r'stories', views.StoryViewSet)
-router.register(r'recommendations', views.AuthorViewSet)
+router.register(r'authors', views.AuthorViewSet)
 
 urlpatterns = [
     path('account/', include('accounts.urls', namespace='accounts')),

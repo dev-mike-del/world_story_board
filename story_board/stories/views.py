@@ -11,7 +11,7 @@ from django.views.generic import (
 )
 from django.urls import reverse, reverse_lazy
 
-from rest_framework import generics
+from rest_framework import mixins
 from rest_framework import viewsets
 
 from .forms import Story_Form
@@ -107,7 +107,10 @@ class StoryViewSet(viewsets.ModelViewSet):
     serializer_class = StorySerializer
 
 
-class AuthorViewSet(viewsets.ModelViewSet):
+class AuthorViewSet(mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.ListModelMixin,
+                    viewsets.GenericViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
 # End of API v1
