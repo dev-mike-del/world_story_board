@@ -16,14 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from rest_framework import routers
+
+from stories import views
+
+
+router = routers.SimpleRouter()
+router.register(r'stories', views.StoryViewSet)
+router.register(r'recommendations', views.RecommendationViewSet)
+
 urlpatterns = [
-	path('account/', include('accounts.urls', namespace='accounts')),
+    path('account/', include('accounts.urls', namespace='accounts')),
     path('admin/', admin.site.urls),
-    path('api-auth/', include(
-            'rest_framework.urls',
-            namespace='rest_framework',
-        )
-    ),
+    path('api/v1/', include((router.urls, 'stories'), namespace='apiv1')),
     
-	path('', include('stories.urls', namespace='stories')),
+    path('', include('stories.urls', namespace='stories')),
 ]

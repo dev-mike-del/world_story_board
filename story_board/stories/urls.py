@@ -22,36 +22,11 @@ from .views import (
     About,
     Sitemap,
     Story_Delete,
-    ListCreateStory,
-    RetrieveUpdateDestroyStory,
-    ListCreateRecommendation,
-    RetrieveUpdateDestroyRecommendation,
 )
 
 app_name = 'stories'
 
 urlpatterns = [
-    path(
-        'api/v1/',
-        ListCreateStory.as_view(),
-        name='api_stories',
-    ),
-    path(
-        'api/v1/<pk>',
-        RetrieveUpdateDestroyStory.as_view(),
-        name='api_story',
-    ),
-    path(
-        'api/v1/<pk>/recommendations',
-        ListCreateRecommendation.as_view(),
-        name='api_recommendations',
-    ),
-    path(
-        'api/v1/<story_pk>/recommendations/<pk>/',
-        RetrieveUpdateDestroyRecommendation.as_view(),
-        name='api_recommendation',
-    ),
-
 
     path(
         'following',

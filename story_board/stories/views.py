@@ -12,6 +12,7 @@ from django.views.generic import (
 from django.urls import reverse, reverse_lazy
 
 from rest_framework import generics
+from rest_framework import viewsets
 
 from .forms import Story_Form
 from .models import Author, Story
@@ -100,34 +101,16 @@ def Sitemap(request):
 
 # API Views
 
-
-class ListCreateStory(generics.ListCreateAPIView):
-    """docstring for ListCreateStory"""
-    queryset = Story.objects.filter(published=True)
+# API v1
+class StoryViewSet(viewsets.ModelViewSet):
+    queryset = Story.objects.all()
     serializer_class = StorySerializer
 
 
-class ListCreateRecommendation(generics.ListCreateAPIView):
-    """docstring for ListCreateStory"""
+class RecommendationViewSet(viewsets.ModelViewSet):
     queryset = Story.objects.all()
     serializer_class = AuthorSerializer
-
-    def get_queryset(self):
-        story = self.queryset.filter(id=self.kwargs.get('pk')).get()
-        return story.recommendations.all()
-
-
-class RetrieveUpdateDestroyStory(generics.RetrieveUpdateDestroyAPIView):
-    """docstring for ListCreateStory"""
-    queryset = Story.objects.filter(published=True)
-    serializer_class = StorySerializer
-
-
-class RetrieveUpdateDestroyRecommendation(generics.RetrieveUpdateDestroyAPIView):
-    """docstring for ListCreateStory"""
-    queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
-
+# End of API v1
 
 # End of API Views
 
