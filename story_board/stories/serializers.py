@@ -24,8 +24,15 @@ class AuthorSerializer(serializers.ModelSerializer):
 class StorySerializer(serializers.ModelSerializer):
     """docstring for StorySerializer"""
 
-    # author = AuthorSerializer()
-    # recommendations = AuthorSerializer(many=True)
+    author = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        view_name='apiv1:author-detail',
+    )
+    recommendations = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='apiv1:author-detail',
+    )
 
     class Meta:
         fields = (
