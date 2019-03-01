@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
@@ -11,7 +12,6 @@ from django.views.generic import (
 )
 from django.urls import reverse, reverse_lazy
 
-from rest_framework import mixins
 from rest_framework import viewsets
 
 from .forms import Story_Form
@@ -102,17 +102,14 @@ def Sitemap(request):
 # API Views
 
 # API v1
-class StoryViewSet(viewsets.ModelViewSet):
+class StoryViewSet(viewsets.ViewSet):
+    """
+    A simple ViewSet for listing or retrieving users.
+    """
     queryset = Story.objects.all()
-    serializer_class = StorySerializer
+    serializer = StorySerializer(queryset, many=True)
 
 
-class AuthorViewSet(mixins.RetrieveModelMixin,
-                    mixins.UpdateModelMixin,
-                    mixins.ListModelMixin,
-                    viewsets.GenericViewSet):
-    queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
 # End of API v1
 
 # End of API Views

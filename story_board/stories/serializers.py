@@ -14,6 +14,7 @@ class AuthorSerializer(serializers.ModelSerializer):
             'author_slug',
         )
         read_only_fields = ('id',
+                            'username',
                             'followers',
                             'following',
                             'author_slug',
@@ -55,4 +56,5 @@ class StorySerializer(serializers.ModelSerializer):
                             'date_modified',
                             )
         model = Story
+
 
