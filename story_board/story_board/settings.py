@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'accounts',
     'stories',
 ]
@@ -153,7 +154,7 @@ LOGIN_REDIRECT_URL = "stories:story_list"
 # REST Framework
 REST_FRAMEWORK = {
     'DEFUALT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',    
+        'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFUALT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',

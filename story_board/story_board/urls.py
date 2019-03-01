@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 from rest_framework import routers
+from rest_framework.authtoken.views import obtain_auth_token
 
 from stories import views
 
@@ -28,6 +29,7 @@ router.register(r'authors', views.AuthorViewSet)
 urlpatterns = [
     path('account/', include('accounts.urls', namespace='accounts')),
     path('admin/', admin.site.urls),
+    path('api-token-auth/', obtain_auth_token),
     path('api/v1/', include((router.urls, 'stories'), namespace='apiv1')),
     
     path('', include('stories.urls', namespace='stories')),
