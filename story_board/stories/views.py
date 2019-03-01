@@ -13,6 +13,11 @@ from django.views.generic import (
 from django.urls import reverse, reverse_lazy
 
 from rest_framework import viewsets
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated,
+    IsAdminUser,
+)
 
 from .forms import Story_Form
 from .models import Author, Story
@@ -102,12 +107,66 @@ def Sitemap(request):
 # API Views
 
 # API v1
-class StoryViewSet(viewsets.ViewSet):
+class AuthorViewSet(viewsets.ModelViewSet):
     """
-    A simple ViewSet for listing or retrieving users.
+    A Django Rest Framework ViewSet for listing or retrieving Authors.
+    """
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        if self.action == 'list':
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+
+
+class StoryViewSet(viewsets.ModelViewSet):
+    """
+    A Django Rest Framework ViewSet for listing or retrieving Stories.
     """
     queryset = Story.objects.all()
-    serializer = StorySerializer(queryset, many=True)
+    serializer_class = StorySerializer
+
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+
+        if self.action == 'list' or self.action == "retrieve":
+            permission_classes = [AllowAny]
+
+        elif self.action == 'create':
+            permission_classes = [IsAuthenticated]
+
+        elif (
+                self.action == 'update' or
+                self.action == 'partial_update' or
+                self.action == 'destroy'
+        ):
+            try:
+                request_author = get_object_or_404(
+                    Author,
+                    user=self.request.user
+                )
+                story = get_object_or_404(
+                    Story,
+                    id=self.kwargs['pk'],
+                )
+                if story.author == request_author:
+                    permission_classes = [IsAuthenticated]
+                else:
+                    permission_classes = [IsAdminUser]
+            except:
+                permission_classes = [IsAdminUser]
+        else:
+            permission_classes = [IsAdminUser]
+
+        return [permission() for permission in permission_classes]
 
 
 # End of API v1
