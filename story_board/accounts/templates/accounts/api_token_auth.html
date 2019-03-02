@@ -1,0 +1,6 @@
+{% load static from staticfiles %}
+
+<form method="POST">
+	{% csrf_token %}
+	<input class="login_button mt-3" type="submit" name="submit" value="submit" />
+</form>

@@ -9,12 +9,20 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-
 from django.urls import reverse, reverse_lazy
+
+from rest_framework import viewsets
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated,
+    IsAdminUser,
+)
 
 from .forms import Story_Form
 from .models import Author, Story
-
+from .serializers import AuthorSerializer, StorySerializer
 
 User = get_user_model()
 
@@ -51,11 +59,13 @@ def recall_story(self, request):
         story.published = False
         story.save()
 
+
 def delete_story(self, request_author):
     if "delete" in self.request.POST:
         story_id = request.POST.get('delete')
         story = get_object_or_404(Story, id=story_id) 
         story.save()
+
 
 def story_recommend(self, request):
     if 'recommend' or 'unrecommend' in self.request.POST:
@@ -73,10 +83,12 @@ def story_recommend(self, request):
 def author_follow(self, request):
     if 'follow' or 'unfollow' in self.request.POST:
         request_author = get_request_author(self)
-        target_author_str = self.kwargs['author_slug']
-        target_author_user = User.objects.get(username=target_author_str)
+
         target_author, created2 = Author.objects.get_or_create(
-            user=target_author_user)
+            author_slug=self.kwargs['author_slug'])
+
+        target_author_user = User.objects.get(username=target_author.username)
+
         if 'follow' in self.request.POST:
             request_author.following.add(target_author_user)
             target_author.followers.add(self.request.user)
@@ -89,8 +101,108 @@ def author_follow(self, request):
 def About(request):
     return render(request, 'stories/about.html')
 
+
 def Sitemap(request):
     return render(request, 'stories/sitemap.xml')
+
+
+# API Views
+
+# API v1
+class AuthorViewSet(viewsets.ModelViewSet):
+    """
+    A Django Rest Framework ViewSet for listing or retrieving Authors.
+    """
+    queryset = Author.objects.all().order_by('id')
+    serializer_class = AuthorSerializer
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+
+        if self.action == 'list' or self.action == "retrieve":
+            permission_classes = [AllowAny]
+
+        elif self.action == 'create':
+            permission_classes = [IsAdminUser]
+
+        elif (
+                self.action == 'update' or
+                self.action == 'partial_update' or
+                self.action == 'destroy'
+        ):
+            try:
+                request_author = get_object_or_404(
+                    Author,
+                    user=self.request.user
+                )
+                target_author = get_object_or_404(
+                    Author,
+                    id=self.kwargs['pk'],
+                )
+                if target_author == request_author:
+                    permission_classes = [IsAuthenticated]
+                else:
+                    permission_classes = [IsAdminUser]
+            except:
+                permission_classes = [IsAdminUser]
+        else:
+            permission_classes = [IsAdminUser]
+
+        return [permission() for permission in permission_classes]
+
+
+class StoryViewSet(viewsets.ModelViewSet):
+    """
+    A Django Rest Framework ViewSet for listing or retrieving Stories.
+    """
+    queryset = Story.objects.filter(published=True).order_by('-id')
+    serializer_class = StorySerializer
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+
+        if self.action == 'list' or self.action == "retrieve":
+            permission_classes = [AllowAny]
+
+        elif self.action == 'create':
+            permission_classes = [IsAuthenticated]
+
+        elif (
+                self.action == 'update' or
+                self.action == 'partial_update' or
+                self.action == 'destroy'
+        ):
+            try:
+                request_author = get_object_or_404(
+                    Author,
+                    user=self.request.user
+                )
+                story = get_object_or_404(
+                    Story,
+                    id=self.kwargs['pk'],
+                )
+                if story.author == request_author:
+                    permission_classes = [IsAuthenticated]
+                else:
+                    permission_classes = [IsAdminUser]
+            except:
+                permission_classes = [IsAdminUser]
+        else:
+            permission_classes = [IsAdminUser]
+
+        return [permission() for permission in permission_classes]
+
+
+# End of API v1
+
+# End of API Views
+
 
 class Story_List(ListView, FormView):
     context_object_name = 'stories'
@@ -125,6 +237,7 @@ class Story_List(ListView, FormView):
             pass
         return HttpResponseRedirect(Story.get_absolute_url(self))
 
+
 class Author_Story_List(DetailView, UpdateView, FormView):
     context_object_name = 'author'
     model = Author
@@ -139,8 +252,6 @@ class Author_Story_List(DetailView, UpdateView, FormView):
                 author_slug=self.kwargs['author_slug'])
         except Exception:
             pass
-        else:
-            return None
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -150,13 +261,14 @@ class Author_Story_List(DetailView, UpdateView, FormView):
 
             if self.request.user == host_author_user:
                 context['stories'] = Story.objects.filter(author=host_author).all().order_by('-id')
+                context['author_api_token'] = get_object_or_404(Token, user=host_author_user)
+
             else:
                 context['stories'] = Story.objects.filter(
                     Q(author=kwargs['object']),
                     Q(published=True)).all().order_by('-id')
 
             context['author'] = host_author
-
             context['guest_author'] = Author.objects.get(
                 user=self.request.user)
 
@@ -165,6 +277,21 @@ class Author_Story_List(DetailView, UpdateView, FormView):
         return context
 
     def post(self, request, *args, **kwargs):
+        try:
+            if request.POST['api']:
+                author = get_object_or_404(Author, user=request.user)
+                Token.objects.get_or_create(user=request.user)
+
+                return HttpResponseRedirect(
+                    reverse(
+                        'stories:author_story_list',
+                        kwargs={'author_slug': author.author_slug},
+                    )
+                )
+
+        except:
+            pass
+
         story_form(self, request)
         try:
             story_recommend(self, request)
@@ -175,7 +302,11 @@ class Author_Story_List(DetailView, UpdateView, FormView):
         except Exception:
             pass
         target_author = author_follow(self, request,)
-        return redirect('stories:author_story_list', author_slug=target_author)
+        print(kwargs)
+        return redirect(
+            'stories:author_story_list',
+            author_slug=target_author.author_slug
+        )
 
 
 class Author_Story_Update(UpdateView):
