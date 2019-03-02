@@ -10,6 +10,15 @@
       <h5 class="card-title">{{ author }}</h5>
         {% if user.is_authenticated %}
           {% if user == author.user %}
+            {% if author_api_token %}
+              {{ author_api_token }}
+            {% else %}
+              <form method="post">
+                {% csrf_token %}
+                <input name="api" type="submit" value="api" class="btn-small btn-primary">
+              </form>
+              <p>You do not have an API key</p>
+            {% endif %}
             {{ block.super }}
           {% else %}
             {% if guest_author.user in author.followers.all %}

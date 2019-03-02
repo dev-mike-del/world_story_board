@@ -12,6 +12,8 @@ from django.views.generic import (
 from django.urls import reverse, reverse_lazy
 
 from rest_framework import viewsets
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
 from rest_framework.permissions import (
     AllowAny,
     IsAuthenticated,
@@ -21,7 +23,6 @@ from rest_framework.permissions import (
 from .forms import Story_Form
 from .models import Author, Story
 from .serializers import AuthorSerializer, StorySerializer
-
 
 User = get_user_model()
 
@@ -130,6 +131,7 @@ class StoryViewSet(viewsets.ModelViewSet):
     """
     queryset = Story.objects.all()
     serializer_class = StorySerializer
+    authentication_classes = [TokenAuthentication,]
 
     def get_permissions(self):
         """
@@ -206,6 +208,7 @@ class Story_List(ListView, FormView):
             pass
         return HttpResponseRedirect(Story.get_absolute_url(self))
 
+
 class Author_Story_List(DetailView, UpdateView, FormView):
     context_object_name = 'author'
     model = Author
@@ -220,8 +223,6 @@ class Author_Story_List(DetailView, UpdateView, FormView):
                 author_slug=self.kwargs['author_slug'])
         except Exception:
             pass
-        else:
-            return None
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -231,13 +232,14 @@ class Author_Story_List(DetailView, UpdateView, FormView):
 
             if self.request.user == host_author_user:
                 context['stories'] = Story.objects.filter(author=host_author).all().order_by('-id')
+                context['author_api_token'] = get_object_or_404(Token, user=host_author_user)
+
             else:
                 context['stories'] = Story.objects.filter(
                     Q(author=kwargs['object']),
                     Q(published=True)).all().order_by('-id')
 
             context['author'] = host_author
-
             context['guest_author'] = Author.objects.get(
                 user=self.request.user)
 
@@ -246,6 +248,21 @@ class Author_Story_List(DetailView, UpdateView, FormView):
         return context
 
     def post(self, request, *args, **kwargs):
+        try:
+            if request.POST['api']:
+                author = get_object_or_404(Author, user=request.user)
+                Token.objects.get_or_create(user=request.user)
+
+                return HttpResponseRedirect(
+                    reverse(
+                        'stories:author_story_list',
+                        kwargs={'author_slug': author.author_slug},
+                    )
+                )
+
+        except:
+            pass
+
         story_form(self, request)
         try:
             story_recommend(self, request)
