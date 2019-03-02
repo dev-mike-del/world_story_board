@@ -5,19 +5,34 @@ from .models import Author, Story
 
 class AuthorSerializer(serializers.ModelSerializer):
     """docstring for AuthorSerializer"""
+
+    id = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        view_name='apiv1:author-detail',
+    )
+    followers = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='apiv1:author-detail',
+    )
+    following = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='apiv1:author-detail',
+    )
+
     class Meta:
         fields = (
+            'id',
             'username',
             'bio',
             'followers',
             'following',
-            'author_slug',
         )
         read_only_fields = ('id',
                             'username',
                             'followers',
                             'following',
-                            'author_slug',
                             )
         model = Author
 
@@ -25,10 +40,15 @@ class AuthorSerializer(serializers.ModelSerializer):
 class StorySerializer(serializers.ModelSerializer):
     """docstring for StorySerializer"""
 
+    id = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        view_name='apiv1:story-detail',
+    )
     author = serializers.HyperlinkedRelatedField(
         read_only=True,
         view_name='apiv1:author-detail',
     )
+
     recommendations = serializers.HyperlinkedRelatedField(
         many=True,
         read_only=True,
@@ -42,7 +62,6 @@ class StorySerializer(serializers.ModelSerializer):
             'body',
             'author',
             'recommendations',
-            'story_slug',
             'published',
             'date_created',
             'date_modified',
@@ -50,7 +69,6 @@ class StorySerializer(serializers.ModelSerializer):
         read_only_fields = ('id',
                             'author',
                             'recommendations',
-                            'story_slug',
                             'published',
                             'date_created',
                             'date_modified',
