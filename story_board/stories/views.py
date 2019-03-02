@@ -83,10 +83,12 @@ def story_recommend(self, request):
 def author_follow(self, request):
     if 'follow' or 'unfollow' in self.request.POST:
         request_author = get_request_author(self)
-        target_author_str = self.kwargs['author_slug']
-        target_author_user = User.objects.get(username=target_author_str)
+
         target_author, created2 = Author.objects.get_or_create(
-            user=target_author_user)
+            author_slug=self.kwargs['author_slug'])
+
+        target_author_user = User.objects.get(username=target_author.username)
+
         if 'follow' in self.request.POST:
             request_author.following.add(target_author_user)
             target_author.followers.add(self.request.user)
@@ -273,7 +275,11 @@ class Author_Story_List(DetailView, UpdateView, FormView):
         except Exception:
             pass
         target_author = author_follow(self, request,)
-        return redirect('stories:author_story_list', author_slug=target_author)
+        print(kwargs)
+        return redirect(
+            'stories:author_story_list',
+            author_slug=target_author.author_slug
+        )
 
 
 class Author_Story_Update(UpdateView):
