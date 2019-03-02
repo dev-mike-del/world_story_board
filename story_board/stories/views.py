@@ -12,7 +12,7 @@ from django.views.generic import (
 from django.urls import reverse, reverse_lazy
 
 from rest_framework import viewsets
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import (
     AllowAny,
@@ -113,17 +113,44 @@ class AuthorViewSet(viewsets.ModelViewSet):
     """
     A Django Rest Framework ViewSet for listing or retrieving Authors.
     """
-    queryset = Author.objects.all()
+    queryset = Author.objects.all().order_by('id')
     serializer_class = AuthorSerializer
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
 
     def get_permissions(self):
         """
         Instantiates and returns the list of permissions that this view requires.
         """
-        if self.action == 'list':
-            permission_classes = [IsAuthenticated]
+
+        if self.action == 'list' or self.action == "retrieve":
+            permission_classes = [AllowAny]
+
+        elif self.action == 'create':
+            permission_classes = [IsAdminUser]
+
+        elif (
+                self.action == 'update' or
+                self.action == 'partial_update' or
+                self.action == 'destroy'
+        ):
+            try:
+                request_author = get_object_or_404(
+                    Author,
+                    user=self.request.user
+                )
+                target_author = get_object_or_404(
+                    Author,
+                    id=self.kwargs['pk'],
+                )
+                if target_author == request_author:
+                    permission_classes = [IsAuthenticated]
+                else:
+                    permission_classes = [IsAdminUser]
+            except:
+                permission_classes = [IsAdminUser]
         else:
             permission_classes = [IsAdminUser]
+
         return [permission() for permission in permission_classes]
 
 
@@ -131,9 +158,9 @@ class StoryViewSet(viewsets.ModelViewSet):
     """
     A Django Rest Framework ViewSet for listing or retrieving Stories.
     """
-    queryset = Story.objects.all()
+    queryset = Story.objects.filter(published=True).order_by('-id')
     serializer_class = StorySerializer
-    authentication_classes = [TokenAuthentication,]
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
 
     def get_permissions(self):
         """
